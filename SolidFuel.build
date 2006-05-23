@@ -2,8 +2,14 @@
 <project name="SolidFuel" default="build" basedir=".">
 	<description>The SolidFuel game development library.</description>
 	<property name="debug" value="true" overwrite="false"/>
+
+	<assemblyfileset id="tao.assemblies">
+
+	</assemblyfileset>
+
 	<target name="clean" description="remove all generated files">
 		<delete file="SolidFuel.Logic.dll" failonerror="false"/>
+		<delete file="SolidFuel.Graphics.dll" failonerror="false"/>
 		<delete file="ConditionTest.exe" failonerror="false"/>
 	</target>
 	<target name="build" description="Compile stuff">
@@ -11,6 +17,17 @@
 			<sources basedir="Logic">
 				<include name="*.boo"/>
 			</sources>
+		</booc>
+		<booc target="library" output="SolidFuel.Graphics.dll">
+			<sources basedir="Graphics">
+				<include name="*.boo"/>
+			</sources>
+			<references>
+				<include name="${solidfuel.taopath}/Tao.Sdl.dll"/>
+				<include name="${solidfuel.taopath}/Tao.OpenGl.dll"/>
+				<include name="${solidfuel.taopath}/Tao.OpenGl.Glu.dll"/>
+				<include name="${solidfuel.taopath}/Tao.OpenGl.ExtensionLoader.dll"/>
+			</references>
 		</booc>
 	</target>
 	<target name="test" description="Run the test suite">
