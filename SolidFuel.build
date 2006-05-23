@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="SolidFuel" default="build" basedir=".">
+	<description>The SolidFuel game development library.</description>
+	<property name="debug" value="true" overwrite="false"/>
+	<target name="clean" description="remove all generated files">
+		<delete file="SolidFuel.Logic.dll" failonerror="false"/>
+		<delete file="ConditionTest.exe" failonerror="false"/>
+	</target>
+	<target name="build" description="Compile stuff">
+		<booc target="library" output="SolidFuel.Logic.dll">
+			<sources basedir="Logic">
+				<include name="*.boo"/>
+			</sources>
+		</booc>
+	</target>
+	<target name="test" description="Run the test suite">
+		<booc target="library" output="Tests.dll">
+			<sources basedir="Tests">
+				<include name="*.boo"/>
+			</sources>
+			<references>
+				<include name="SolidFuel.Logic.dll"/>
+			</references>
+		</booc>
+		<nunit2>
+			<formatter type="Xml" usefile="true"/>
+			<test assemblyname="Tests.dll"/>
+		</nunit2>
+	</target>
+</project>
