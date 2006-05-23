@@ -1,0 +1,39 @@
+<Project name="solidfuel" fileversion="2.0" language="Boo" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Debug" assembly="solidfuel" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <CodeGeneration genwarnings="False" ducky="False" culture="" ctype="BooCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Release" assembly="solidfuel" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <CodeGeneration genwarnings="False" ducky="False" culture="" ctype="BooCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <DeploymentInformation strategy="File">
+    <excludeFiles />
+  </DeploymentInformation>
+  <Contents>
+    <File name="./SolidFuel.build" subtype="Code" buildaction="Nothing" />
+    <File name="./Graphics/AssemblyInfo.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/Image.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/Sprite.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Logic/AssemblyInfo.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Logic/Condition.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Logic/ConditionalEvent.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Logic/Event.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Logic/EventGroup.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Tests/ConditionTest.boo" subtype="Code" buildaction="Compile" />
+    <File name="./SolidFuel.Graphics.snk" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./SolidFuel.Logic.snk" subtype="Code" buildaction="EmbedAsResource" />
+  </Contents>
+  <References>
+    <ProjectReference type="Assembly" localcopy="True" refto="../../Tao-1.2.0-1/lib/Tao.OpenGl.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../../Tao-1.2.0-1/lib/Tao.OpenGl.ExtensionLoader.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../../Tao-1.2.0-1/lib/Tao.OpenGl.Glu.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../../Tao-1.2.0-1/lib/Tao.Sdl.dll" />
+  </References>
+</Project>

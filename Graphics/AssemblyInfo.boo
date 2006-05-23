@@ -11,4 +11,4 @@ import System.Runtime.CompilerServices
 [assembly: AssemblyCulture('')]
 [assembly: AssemblyVersion('1.0.0.0')]
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile('../Graphics/SolidFuel.Graphics.snk')]
+[assembly: AssemblyKeyFile('SolidFuel.Graphics.snk')]
