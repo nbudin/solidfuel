@@ -14,14 +14,11 @@ class Image:
     
     def constructor(filename as string):
         self._texture = 0    
-        print "Loading", filename
         surfptr = SdlImage.IMG_Load(filename)
         if surfptr.Equals(System.IntPtr.Zero):
             raise "Error loading image " + filename
         
         surf = cast(Sdl.SDL_Surface, Marshal.PtrToStructure(surfptr, typeof(Sdl.SDL_Surface)))
-        fmt = cast(Sdl.SDL_PixelFormat, Marshal.PtrToStructure(surf.format, typeof(Sdl.SDL_PixelFormat)))
-        print fmt.BitsPerPixel
 
         # fix this later, it is inefficent, we should figure out SDL_BYTEORDER at compile time
         if Sdl.SDL_BYTEORDER == Sdl.SDL_LIL_ENDIAN:
