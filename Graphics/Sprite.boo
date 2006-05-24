@@ -26,12 +26,6 @@ class Sprite:
 	def constructor(image as Image):
 		self._image = image
 
-	def destructor():
-		# I would like to delete the texture here, but for some reason
-		# I get a segfault whenever I try it
-		#Gl.glDeleteTextures(1, self.texture)
-		pass
-		
 	def draw():
 		Gl.glBindTexture(Gl.GL_TEXTURE_2D, self._image.texture)
 		Gl.glPushMatrix()

@@ -51,3 +51,9 @@ class Image:
 
         Sdl.SDL_FreeSurface(surfptr)
         Sdl.SDL_FreeSurface(texsurfptr)
+        
+    def destructor():
+		# I would like to delete the texture here, but for some reason
+		# I get a segfault whenever I try it
+		#Gl.glDeleteTextures(1, self.texture)
+		pass
