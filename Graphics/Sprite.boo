@@ -1,13 +1,10 @@
+namespace SolidFuel.Graphics
+
 import Tao.OpenGl
 
-class Sprite:
+class Sprite(IVisible, Translator):
 	private _image as Image
-	public x = 0.0
-	public y = 0.0
-	public rotX = 0.0
-	public rotY = 0.0
-	public rotZ = 0.0
-
+	
 	public w:
 		get:
 			return self._image.w
@@ -25,16 +22,17 @@ class Sprite:
 
 	def constructor(image as Image):
 		self._image = image
-
+		
+	def translate():
+		Gl.glPushMatrix()
+		Gl.glTranslated(cast(int, x + (self.w / 2)), cast(int, y + (self.h / 2)), 0)
+		Gl.glScaled(self.w / 2, self.h / 2, 0)
+		Gl.glRotatef(rotX, 1, 0, 0)
+		Gl.glRotatef(rotY, 0, 1, 0)
+		Gl.glRotatef(rotZ, 0, 0, 1)
+	
 	def draw():
 		Gl.glBindTexture(Gl.GL_TEXTURE_2D, self._image.texture)
-		Gl.glPushMatrix()
-		Gl.glTranslated(cast(int, self.x + (self.w / 2)), 
-				cast(int, self.y + (self.h / 2)), 0)
-		Gl.glScaled(self.w / 2, self.h / 2, 0)
-		Gl.glRotatef(self.rotX, 1, 0, 0)
-		Gl.glRotatef(self.rotY, 0, 1, 0)
-		Gl.glRotatef(self.rotZ, 0, 0, 1)
 		Gl.glBegin(Gl.GL_QUADS)
 		Gl.glTexCoord2d(0, 0)
 		Gl.glVertex3f(-1, 1, 0)
@@ -45,19 +43,23 @@ class Sprite:
 		Gl.glTexCoord2d(0, 1)
 		Gl.glVertex3f(-1, -1, 0)
 		Gl.glEnd()
-		Gl.glPopMatrix()
 		
-	aspectRatio as double:
+	def drawWithTranslation():
+		translate()
+		draw()
+		untranslate()
+		
+	AspectRatio as double:
 		get:
 			return cast(double, self.w) / cast(double, self.h)
 	
 	def scaleW(w as double):
-		ar = self.aspectRatio
+		ar = self.AspectRatio
 		self.w = w
 		self.h = w / ar
 		
 	def scaleH(h as double):
-		ar = self.aspectRatio
+		ar = self.AspectRatio
 		self.h = h
 		self.w = h * ar
 		
