@@ -5,6 +5,10 @@ import Tao.OpenGl
 class Sprite(IVisible, Translator):
 	private _image as Image
 	
+	public rotX = 0.0
+	public rotY = 0.0
+	public rotZ = 0.0
+	
 	public w:
 		get:
 			return self._image.w
@@ -22,16 +26,14 @@ class Sprite(IVisible, Translator):
 
 	def constructor(image as Image):
 		self._image = image
-		
-	def translate():
+	
+	def draw():
 		Gl.glPushMatrix()
-		Gl.glTranslated(cast(int, x + (self.w / 2)), cast(int, y + (self.h / 2)), 0)
+		Gl.glTranslated(self.w / 2, self.h / 2, 0)
 		Gl.glScaled(self.w / 2, self.h / 2, 0)
 		Gl.glRotatef(rotX, 1, 0, 0)
 		Gl.glRotatef(rotY, 0, 1, 0)
 		Gl.glRotatef(rotZ, 0, 0, 1)
-	
-	def draw():
 		Gl.glBindTexture(Gl.GL_TEXTURE_2D, self._image.texture)
 		Gl.glBegin(Gl.GL_QUADS)
 		Gl.glTexCoord2d(0, 0)
@@ -43,6 +45,7 @@ class Sprite(IVisible, Translator):
 		Gl.glTexCoord2d(0, 1)
 		Gl.glVertex3f(-1, -1, 0)
 		Gl.glEnd()
+		Gl.glPopMatrix()
 		
 	def drawWithTranslation():
 		translate()

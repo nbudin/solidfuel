@@ -11,18 +11,6 @@ interface ITranslatable:
 		get
 		set
 	
-	rotX as double:
-		get
-		set
-	
-	rotY as double:
-		get
-		set
-	
-	rotZ as double:
-		get
-		set
-	
 	def translate()
 	
 	def untranslate()

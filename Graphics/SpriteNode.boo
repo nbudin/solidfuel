@@ -20,21 +20,21 @@ class SpriteNode(VisibleNode, ITranslatable):
 	
 	rotX:
 		get:
-			return (self._visible as ITranslatable).rotX
+			return (self._visible as Sprite).rotX
 		set:
-			(self._visible as ITranslatable).rotX = value
+			(self._visible as Sprite).rotX = value
 			
 	rotY:
 		get:
-			return (self._visible as ITranslatable).rotY
+			return (self._visible as Sprite).rotY
 		set:
-			(self._visible as ITranslatable).rotY = value
+			(self._visible as Sprite).rotY = value
 			
 	rotZ:
 		get:
-			return (self._visible as ITranslatable).rotZ
+			return (self._visible as Sprite).rotZ
 		set:
-			(self._visible as ITranslatable).rotZ = value
+			(self._visible as Sprite).rotZ = value
 			
 	w:
 		get:
