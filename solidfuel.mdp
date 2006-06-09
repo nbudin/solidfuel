@@ -29,6 +29,13 @@
     <File name="./Tests/ConditionTest.boo" subtype="Code" buildaction="Compile" />
     <File name="./SolidFuel.Graphics.snk" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./SolidFuel.Logic.snk" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./Graphics/IVisible.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/Node.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/VisibleNode.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/Display.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/Translator.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/SpriteNode.boo" subtype="Code" buildaction="Compile" />
+    <File name="./Graphics/ITranslatable.boo" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Assembly" localcopy="True" refto="../../Tao-1.2.0-1/lib/Tao.OpenGl.dll" />
