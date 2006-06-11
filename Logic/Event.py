@@ -1,7 +1,7 @@
 class Event:
     def __init__(self):
         self._responders = []
-        self.active = False
+        self.active = True
 
     def addResponder(self, resp):
         self._responders.append(resp)
