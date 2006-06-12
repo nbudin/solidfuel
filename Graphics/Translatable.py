@@ -1,6 +1,6 @@
 class Translatable:
-	def translate():
+	def translate(self):
 		raise "This is an abstract class."
 	
-	def untranslate():
+	def untranslate(self):
 		raise "This is an abstract class."

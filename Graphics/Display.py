@@ -4,14 +4,15 @@ import pygame
 from pygame.locals import *
 
 from Node import Node
+from Translatable import Translatable
 
 class Display(Node):
-	def __init__(width, height):
+	def __init__(self, width, height):
 		self.w = width
 		self.h = height
 
-		pygame.init()
-		pygame.display.set_mode(self.w, self.h, 32, DOUBLEBUF|OPENGL)
+		pygame.display.init()
+		pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL)
 		
 		glEnable(GL_TEXTURE_2D)
 		glShadeModel(GL_SMOOTH)
@@ -31,10 +32,10 @@ class Display(Node):
 		
 		Node.__init__(self)
 	
-	def setCaption(caption):
+	def setCaption(self, caption):
 		pygame.display.set_caption(caption)
 		
-	def render(node = None):
+	def render(self, node = None):
 		if node is not None:
 			if issubclass(node.__class__, Translatable):
 				node.translate()
@@ -44,7 +45,10 @@ class Display(Node):
 			if issubclass(node.__class__, Translatable):
 				node.untranslate()
 		else:
-			for child in self._children:
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+			glLoadIdentity()
+			glTranslatef(0, 0, -6)
+			for child in self.children:
 				self.render(child)
 			pygame.display.flip()
 			

@@ -1,3 +1,3 @@
 class Visible:
-	def draw():
+	def draw(self):
 		raise "This is an abstract class."
