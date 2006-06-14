@@ -7,12 +7,12 @@ from Node import Node
 from Translatable import Translatable
 
 class Display(Node):
-	def __init__(self, width, height):
+	def __init__(self, width, height, flags=0):
 		self.w = width
 		self.h = height
 
 		pygame.display.init()
-		pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL)
+		pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL|flags)
 		
 		glEnable(GL_TEXTURE_2D)
 		glShadeModel(GL_SMOOTH)
