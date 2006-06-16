@@ -3,6 +3,8 @@ from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
 from solidfuel import config
+from OpenGL.GL.EXT.texture_filter_anisotropic import *
+
 
 class Image:
 	def __init__(self, filename):
@@ -23,8 +25,8 @@ class Image:
 		if not config.use_anisotropic:
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR)
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR)
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, surf.get_width(), surf.get_height(), 
-				GL_RGBA, GL_UNSIGNED_BYTE, texdata)
+		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, surf.get_width(), surf.get_height(), 
+			GL_RGBA, GL_UNSIGNED_BYTE, texdata)
 
 		del surf
 		del texdata

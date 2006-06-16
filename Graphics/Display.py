@@ -3,6 +3,7 @@ from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
 from solidfuel import config
+from OpenGL.GL.EXT.texture_filter_anisotropic import *
 
 from Node import Node
 from Translatable import Translatable
@@ -31,12 +32,12 @@ class Display(Node):
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
 		
-		try:
-			glGetString(GL_EXTENSIONS).index("GL_EXT_texture_filter_anisotropic")
-		except (ValueError, AttributeError):
-			config.use_anisotropic = 0
-		else:
-			config.use_anisotropic = 1
+		if config.use_anisotropic:
+			try:
+				glGetString(GL_EXTENSIONS).index("GL_EXT_texture_filter_anisotropic")
+				glInitTextureFilterAnisotropicEXT()
+			except:
+				config.use_anisotropic = 0
 		
 		Node.__init__(self)
 	

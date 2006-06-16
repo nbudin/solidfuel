@@ -1,2 +1,2 @@
-use_anisotropic = 0
+use_anisotropic = 1
 
