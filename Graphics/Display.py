@@ -18,7 +18,7 @@ class Display(Node):
 		
 		glEnable(GL_TEXTURE_2D)
 		glShadeModel(GL_SMOOTH)
-		glClearColor(0.0, 0.5, 0.0, 0.0)
+		glClearColor(0.0, 0.0, 0.0, 0.0)
 		glClearDepth(1.0)
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 		

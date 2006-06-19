@@ -3,6 +3,7 @@ from OpenGL.GL import *
 from Image import Image
 from Translator import Translator
 from Node import Node
+import pygame
 
 class Sprite(Image, Node, Translator):
 	def __init__(self, image):
@@ -10,11 +11,14 @@ class Sprite(Image, Node, Translator):
 			self.w = image.w
 			self.h = image.h
 			self._texture = image._texture
+		elif issubclass(image.__class__, pygame.Surface):
+			Image.initFromSurface(self, image)
 		else:
 			Image.__init__(self, image)
 		self.rotX = 0.0
 		self.rotY = 0.0
 		self.rotZ = 0.0
+		self.opacity = 1.0
 		Translator.__init__(self)
 		Node.__init__(self)
 

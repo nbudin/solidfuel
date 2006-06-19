@@ -10,6 +10,9 @@ class Image:
 	def __init__(self, filename):
 		self._texture = 0    
 		surf = pygame.image.load(filename)
+		self.initFromSurface(surf)
+		
+	def initFromSurface(self, surf):
 		self.w = surf.get_width()
 		self.h = surf.get_height()
 
@@ -27,9 +30,6 @@ class Image:
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR)
 		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, surf.get_width(), surf.get_height(), 
 			GL_RGBA, GL_UNSIGNED_BYTE, texdata)
-
-		del surf
-		del texdata
 
 	def __del__(self):
 		# I would like to delete the texture here, but for some reason

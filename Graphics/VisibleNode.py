@@ -1,3 +1,5 @@
+from Node import Node
+
 class VisibleNode(Node):
 	def __init__(self, visible):
 		self.visible = visible
