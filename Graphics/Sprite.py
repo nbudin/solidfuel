@@ -23,6 +23,8 @@ class Sprite(Image, Node, Translator):
 		Node.__init__(self)
 
 	def draw(self):
+		if self.opacity <= 0.0:
+			return
 		glPushMatrix()
 		glTranslated(self.w / 2, self.h / 2, 0)
 		glScaled(self.w / 2, self.h / 2, 0)
@@ -30,6 +32,7 @@ class Sprite(Image, Node, Translator):
 		glRotate(self.rotY, 0, 1, 0)
 		glRotate(self.rotZ, 0, 0, 1)
 		glBindTexture(GL_TEXTURE_2D, self._texture)
+		glColor4f(1.0, 1.0, 1.0, self.opacity)
 		glBegin(GL_QUADS)
 		glTexCoord2d(0, 1)
 		glVertex3f(-1, 1, 0)
