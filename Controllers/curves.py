@@ -1,8 +1,8 @@
 class Curve:
     def __init__(self, start, length):
-        self.start = start
-        self.length = length
-        self.end = start + length
+        self._start = start
+        self._length = length
+        self._end = start + length
         
     def value(self, time):
         raise "This is an abstract class."
@@ -10,15 +10,15 @@ class Curve:
 class LinearCurve(Curve):
     def __init__(self, start, length, startvalue, amount):
         Curve.__init__(self, start, length)
-        self.startvalue = startvalue
-        self.amount = amount
-        self.endvalue = startvalue + amount
-        self.amountpersecond = self.amount / self.length
+        self._startvalue = startvalue
+        self._amount = amount
+        self._endvalue = startvalue + amount
+        self._amountpersecond = self._amount / self._length
     def value(self, time):
-        if time < self.start:
-		return self.startvalue
-	elif time < self.end:
-		return (time - self.start) * self.amountpersecond
+        if time < self._start:
+		return self._startvalue
+	elif time < self._end:
+		return (time - self._start) * self._amountpersecond
 	else:
-		return self.endvalue
+		return self._endvalue
 
