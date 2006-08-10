@@ -5,6 +5,13 @@ class Action:
         self._curve = curve
         self._lastUpdate = 0
 
+    def conflictsWith(self, other):
+        return False
+
+    def overlaps(self, other):
+        return ((other.start() <= self.start() <= other.end()) or
+                (other.start() <= self.end() <= other.end()))
+
     def start(self):
         return self._curve.start()
 
@@ -33,6 +40,9 @@ class Fade(Action):
     def __init__(self, curve, sprite):
         Transition.__init__(self, curve)
         self.sprite = sprite
+
+    def conflictsWith(self, other):
+        return (issubclass(other.__class__, Fade) and self.overlaps(other))
 
     def update(self, time):
         Action.update(self, time)
