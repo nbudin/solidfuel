@@ -3,6 +3,15 @@ class Curve:
         self._start = start
         self._length = length
         self._end = start + length
+
+    def start(self):
+        return self._start
+
+    def length(self):
+        return self._length
+
+    def end(self):
+        return self._end
         
     def value(self, time):
         raise "This is an abstract class."
@@ -18,7 +27,7 @@ class LinearCurve(Curve):
         if time < self._start:
 		return self._startvalue
 	elif time < self._end:
-		return (time - self._start) * self._amountpersecond
+		return self._startvalue + (time - self._start) * self._amountpersecond
 	else:
 		return self._endvalue
 

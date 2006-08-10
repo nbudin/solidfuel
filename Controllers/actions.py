@@ -38,7 +38,7 @@ class Action:
 
 class Fade(Action):
     def __init__(self, curve, sprite):
-        Transition.__init__(self, curve)
+        Action.__init__(self, curve)
         self.sprite = sprite
 
     def conflictsWith(self, other):
@@ -46,4 +46,4 @@ class Fade(Action):
 
     def update(self, time):
         Action.update(self, time)
-        self.sprite.opacity = self.curve.value(time)
+        self.sprite.opacity = self._curve.value(time)
