@@ -1,3 +1,5 @@
+from solidfuel.Logic.Event import Event
+
 class Timeline:
     def __init__(self):
         self._upcomingActions = []
