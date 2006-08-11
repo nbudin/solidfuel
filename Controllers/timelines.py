@@ -4,6 +4,7 @@ class Timeline:
         self._currentActions = []
         self._pastActions = []
         self._lastUpdate = 0.0
+        self.updated = Event()
 
     def addAction(self, action):
         if action.end() <= self._lastUpdate:
@@ -30,5 +31,6 @@ class Timeline:
                 self._currentActions.remove(action)
                 self._pastActions.append(action)
         self._lastUpdate = time
+        self.updated.trigger()
             
             
