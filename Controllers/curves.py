@@ -1,3 +1,5 @@
+import math
+
 class Curve:
     def __init__(self, start, length):
         self._start = start
@@ -31,3 +33,17 @@ class LinearCurve(Curve):
 	else:
 		return self._endvalue
 
+class ParabolicCurve(Curve):
+	# y = coefficient * x^2 + startvalue
+	def __init__(self, start, coefficient, startvalue, length=None, until=None):
+		if length is None and until is not None:
+			# until = coefficient * length^2 + startvalue
+			# until - startvalue = coefficient * length^2
+			# (until - startvalue) / coefficient = length^2
+			# sqrt((until - startvalue) / coefficient) = length
+			length = math.sqrt((until - startvalue) / coefficient)
+		Curve.__init__(self, start, length)
+		self._startvalue = startvalue
+		self._coefficient = coefficient
+	def length(self, time):
+		return self._coefficient * (time ** 2) + self._startvalue
