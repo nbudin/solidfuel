@@ -53,3 +53,15 @@ class Fade(Action):
     def update(self, time):
         self.sprite.opacity = self._curve.value(time)
         Action.update(self, time)
+
+class MoveTo(Action):
+	def __init__(self, sprite, curve, source=None, destination=None):
+		Action.__init__(self, curve)
+		self.sprite = sprite
+		self._factor = curve.value(curve.end()) - curve.value(curve.start())
+		if source is None:
+			source = (sprite.x, sprite.y)
+		self._source = source
+		self._destination = destination
+		self._length = math.sqrt(math.abs(destination[0] - source[0]) ** 2 +
+								 math.abs(destination[1] - source[1]) ** 2)
