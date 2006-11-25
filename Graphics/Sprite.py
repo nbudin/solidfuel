@@ -1,12 +1,14 @@
 from OpenGL.GL import *
 
 from Image import Image
-from Translator import Translator
-from Node import Node
+from Box import Box
+from Visible import Visible
 import pygame
 
-class Sprite(Image, Node, Translator):
+class Sprite(Image, Box, Visible):
 	def __init__(self, image):
+		Box.__init__(self)
+		Visible.__init__(self)
 		if issubclass(image.__class__, Image):
 			self.w = image.w
 			self.h = image.h
@@ -19,8 +21,6 @@ class Sprite(Image, Node, Translator):
 		self.rotY = 0.0
 		self.rotZ = 0.0
 		self.opacity = 1.0
-		Translator.__init__(self)
-		Node.__init__(self)
 
 	def draw(self):
 		if self.opacity <= 0.0:
@@ -31,6 +31,7 @@ class Sprite(Image, Node, Translator):
 		glRotate(self.rotX, 1, 0, 0)
 		glRotate(self.rotY, 0, 1, 0)
 		glRotate(self.rotZ, 0, 0, 1)
+		glColor(1.0, 1.0, 1.0, self.opacity)
 		glBindTexture(GL_TEXTURE_2D, self._texture)
 		glColor4f(1.0, 1.0, 1.0, self.opacity)
 		glBegin(GL_QUADS)
@@ -49,21 +50,4 @@ class Sprite(Image, Node, Translator):
 		translate()
 		draw()
 		untranslate()
-		
-	def aspectRatio(self):
-		return self.w / self.h
-
-	def scale(self, factor):
-		self.w *= factor
-		self.h *= factor
-	
-	def scaleW(self, w):
-		ar = self.aspectRatio()
-		self.w = w
-		self.h = w / ar
-		
-	def scaleH(self, h):
-		ar = self.aspectRatio()
-		self.h = h
-		self.w = h * ar
 		

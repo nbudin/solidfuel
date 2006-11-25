@@ -5,6 +5,7 @@ from pygame.locals import *
 from solidfuel import config
 from OpenGL.GL.EXT.texture_filter_anisotropic import *
 
+from Visible import Visible
 from Node import Node
 from Translatable import Translatable
 
@@ -48,7 +49,8 @@ class Display(Node):
 		if node is not None:
 			if issubclass(node.__class__, Translatable):
 				node.translate()
-			node.draw()
+			if issubclass(node.__class__, Visible):
+				node.draw()
 			for child in node.children:
 				self.render(child)
 			if issubclass(node.__class__, Translatable):
@@ -60,4 +62,7 @@ class Display(Node):
 			for child in self.children:
 				self.render(child)
 			pygame.display.flip()
+	
+	def getCenter(self):
+		return (self.w / 2, self.h / 2)
 			
