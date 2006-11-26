@@ -1,4 +1,5 @@
 from solidfuel.Logic import Event, Condition
+import math
 
 class Action:
     def __init__(self, curve):
@@ -48,7 +49,7 @@ class Fade(Action):
         self.sprite = sprite
 
     def conflictsWith(self, other):
-        return (issubclass(other.__class__, Fade) and self.overlaps(other))
+        return (issubclass(other.__class__, Fade) and self.overlaps(other) and self.sprite is other.sprite)
 
     def update(self, time):
         self.sprite.opacity = self._curve.value(time)
@@ -59,9 +60,25 @@ class MoveTo(Action):
 		Action.__init__(self, curve)
 		self.sprite = sprite
 		self._factor = curve.value(curve.end()) - curve.value(curve.start())
-		if source is None:
-			source = (sprite.x, sprite.y)
 		self._source = source
 		self._destination = destination
-		self._length = math.sqrt(math.abs(destination[0] - source[0]) ** 2 +
-								 math.abs(destination[1] - source[1]) ** 2)
+		if source is not None:
+			self._calcChange()
+		self._length = math.sqrt(abs(destination[0] - source[0]) ** 2 +
+								 abs(destination[1] - source[1]) ** 2)
+				
+	def _calcChange(self):
+		self._change = (self._destination[0] - self._source[0], 
+						self._destination[1] - self._source[1])
+						
+	def conflictsWith(self, other):
+		return (issubclass(other.__class__, MoveTo) and self.overlaps(other) and self.sprite is other.sprite)
+
+	def update(self, time):
+		if self._source is None:
+			self._source = (sprite.x, sprite.y)
+			self._calcChange()
+		tf = self._factor * self._curve.value(time)
+		self.sprite.x = self._source[0] + (self._change[0] * tf)
+		self.sprite.y = self._source[1] + (self._change[1] * tf)
+		Action.update(self, time)
