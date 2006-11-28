@@ -35,15 +35,31 @@ class LinearCurve(Curve):
 
 class ParabolicCurve(Curve):
 	# y = coefficient * x^2 + startvalue
-	def __init__(self, start, coefficient, startvalue, length=None, until=None):
-		if length is None and until is not None:
+	def __init__(self, start, startvalue, coefficient=None, length=None, until=None, decelerate=False):
+		if coefficient is not None and until is not None:
 			# until = coefficient * length^2 + startvalue
 			# until - startvalue = coefficient * length^2
 			# (until - startvalue) / coefficient = length^2
 			# sqrt((until - startvalue) / coefficient) = length
 			length = math.sqrt((until - startvalue) / coefficient)
+		elif coefficient is not None and length is not None:
+			until = coefficient * (length**2) + startvalue
+		else:
+			# until = coefficient * length^2 + startvalue
+			# until - startvalue = coefficient * length^2
+			# (until - startvalue) / (length^2) = coefficient
+			coefficient = (until - startvalue) / (length**2)
 		Curve.__init__(self, start, length)
 		self._startvalue = startvalue
+		self._endvalue = until
 		self._coefficient = coefficient
-	def length(self, time):
-		return self._coefficient * (time ** 2) + self._startvalue
+		self._decelerate = decelerate
+	def value(self, time):
+		x = (time - self._start)
+		if self._decelerate:
+			x -= self._length
+		y = self._coefficient * (x ** 2) + self._startvalue
+		if self._decelerate:
+			y -= self._endvalue
+			y *= -1
+		return y

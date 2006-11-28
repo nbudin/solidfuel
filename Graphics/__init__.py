@@ -9,3 +9,4 @@ from Sprite import Sprite
 from Text import Text
 from Box import Box
 from HBox import HBox
+from RotoZoomer import RotoZoomer

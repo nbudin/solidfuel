@@ -55,6 +55,21 @@ class Fade(Action):
         self.sprite.opacity = self._curve.value(time)
         Action.update(self, time)
 
+class RotoZoom(Action):
+	def __init__(self, rotozoomer, rotCurve, zoomCurve):
+		Action.__init__(self, zoomCurve)
+		self.rotCurve = rotCurve
+		self.zoomCurve = zoomCurve
+		self.rotozoomer = rotozoomer
+		
+	def conflictsWith(self, other):
+		return (issubclass(other.__class__, RotoZoom) and self.overlaps(other) and self.rotozoomer is other.rotozoomer)
+	
+	def update(self, time):
+		self.rotozoomer.rot = self.rotCurve.value(time)
+		self.rotozoomer.zoom = self.zoomCurve.value(time)
+		Action.update(self, time)
+
 class MoveTo(Action):
 	def __init__(self, sprite, curve, source=None, destination=None):
 		Action.__init__(self, curve)
