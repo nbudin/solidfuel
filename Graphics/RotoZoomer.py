@@ -11,5 +11,6 @@ class RotoZoomer(Box):
 	def translate(self):
 		Box.translate(self)
 		glScale(self.zoom, self.zoom, self.zoom)
-		glTranslated(self.w / -2, self.h / -2, 0)
 		glRotate(self.rot, 0, 0, 1)
+		glTranslated(self.w / -2, self.h / 2, 0)
+		

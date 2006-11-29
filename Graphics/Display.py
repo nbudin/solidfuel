@@ -9,8 +9,13 @@ from Visible import Visible
 from Node import Node
 from Translatable import Translatable
 
+def getDisplay():
+	return Display.obj
+
 class Display(Node):
+	obj = None
 	def __init__(self, width, height, flags=0):
+		Display.obj = self
 		self.w = width
 		self.h = height
 

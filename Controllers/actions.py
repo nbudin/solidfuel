@@ -70,6 +70,22 @@ class RotoZoom(Action):
 		self.rotozoomer.zoom = self.zoomCurve.value(time)
 		Action.update(self, time)
 
+class Pan(Action):
+	def __init__(self, scene, pitchCurve=None, yawCurve=None, rollCurve=None):
+		Action.__init__(self, pitchCurve)
+		self.scene = scene
+		self.pitchCurve = pitchCurve
+		self.yawCurve = yawCurve
+		self.rollCurve = rollCurve
+		
+	def update(self, time):
+		if self.pitchCurve is not None:
+			self.scene.pitch = self.pitchCurve.value(time)
+		if self.yawCurve is not None:
+			self.scene.yaw = self.yawCurve.value(time)
+		if self.rollCurve is not None:
+			self.scene.roll = self.rollCurve.value(time)
+
 class MoveTo(Action):
 	def __init__(self, sprite, curve, source=None, destination=None):
 		Action.__init__(self, curve)
