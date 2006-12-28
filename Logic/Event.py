@@ -1,7 +1,7 @@
 class Event:
     def __init__(self):
         self._responders = []
-        self.active = True
+        self._active = True
 
     def addResponder(self, resp):
         self._responders.append(resp)
@@ -10,9 +10,12 @@ class Event:
         self._responders.remove(resp)
 
     def trigger(self, *args, **kwargs):
-        if self.active:
+        if self._active:
             for resp in self._responders:
                 resp(*args, **kwargs)
     
     def setActive(self, value):
-        self.active = value
+        self._active = value
+    
+    def getActive(self):
+	    return self._active
