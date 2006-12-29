@@ -15,6 +15,9 @@ class Condition:
     def parentChanged(self, newStatus):
         self.poll()
 
+    def getStatus(self):
+        return self.status
+
     def __invert__(self):
         nc = Condition(lambda: not self.status)
         self.changed.addResponder(nc.parentChanged)
