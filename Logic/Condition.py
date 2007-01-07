@@ -2,9 +2,14 @@ from Event import Event
 
 class Condition:
     def __init__(self, pf):
-        self._pollFunc = pf
-        self.status = self._pollFunc()
-        self.changed = Event()
+        if issubclass(pf.__class__, Condition):
+            self._pollFunc = pf._pollFunc
+            self.status = pf.status
+            self.changed = pf.changed
+        else:
+            self._pollFunc = pf
+            self.status = self._pollFunc()
+            self.changed = Event()
 
     def poll(self):
         oldStatus = self.status

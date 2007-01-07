@@ -3,7 +3,7 @@ from Condition import Condition
 
 class List(list):
     def __init__(self, *args, **kwargs):
-        list(self, *args, **kwargs)
+        list.__init__(self, *args, **kwargs)
         
         # addEvent(pos, item)
         self._addEvent = Event()

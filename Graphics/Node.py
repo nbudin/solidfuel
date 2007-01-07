@@ -18,6 +18,11 @@ class Node:
 	def removeChild(self, child):
 		self.children.remove(child)
 		child.parent = None
+	
+	def clearChildren(self):
+	    for child in self.children:
+	        child.parent = None
+	    self.children = []
 		
 	def pullToTop(self, child):
 		self.children.remove(child)
