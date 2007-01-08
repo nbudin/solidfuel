@@ -30,6 +30,7 @@ class Display(Node):
 		
 		glEnable(GL_BLEND)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+		glDepthFunc(GL_LEQUAL)
 
 		glViewport(0, 0, self.w, self.h)
 		glMatrixMode(GL_PROJECTION)

@@ -5,10 +5,11 @@ class Translator(Translatable):
 	def __init__(self):
 		self.x = 0.0
 		self.y = 0.0
+		self.z = 0.0
 	
 	def translate(self):
 		glPushMatrix()
-		glTranslated(self.x, self.y, 0)
+		glTranslated(self.x, self.y, self.z)
 		
 	def untranslate(self):
 		glPopMatrix()
