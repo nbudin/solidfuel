@@ -1,3 +1,5 @@
+# -*- tab-width: 4 -*-
+
 from OpenGL.GL import *
 from Translatable import Translatable
 
@@ -8,8 +10,7 @@ class Translator(Translatable):
 		self.z = 0.0
 	
 	def translate(self):
-		glPushMatrix()
 		glTranslated(self.x, self.y, self.z)
 		
 	def untranslate(self):
-		glPopMatrix()
+        glTranslated(-self.x, -self.y, -self.z)
