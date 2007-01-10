@@ -50,7 +50,7 @@ class ThreeDScene(Translator, Node):
 		glLoadMatrixd(self._projMatrix)
 
         flags = GL_ENABLE_BIT
-        flags |= GL_DEPTH_TEST | GL_LIGHTING | GL_NORMALIZE | GL_POLYGON_SMOOTH
+        flags |= GL_DEPTH_TEST | GL_LIGHTING | GL_NORMALIZE | GL_POLYGON_SMOOTH | GL_TEXTURE_2D
         for i in range(len(self._lights)):
 		    flags |= self._lights[i].draw(i)
         glPushAttrib(flags)
