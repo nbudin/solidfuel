@@ -1,3 +1,5 @@
+# -*- tab-width: 4 -*-
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
@@ -58,10 +60,12 @@ class Display(Node):
 				node.translate()
 			if issubclass(node.__class__, Visible):
 				node.draw()
-			for child in node.children:
-				self.render(child)
-			if issubclass(node.__class__, Translatable):
-				node.untranslate()
+			try:
+			    for child in node.children:
+			        self.render(child)
+			finally:
+			    if issubclass(node.__class__, Translatable):
+				    node.untranslate()
 		else:
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 			glLoadIdentity()

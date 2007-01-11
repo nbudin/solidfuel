@@ -40,11 +40,20 @@ class Model(VisibleNode, Translator):
     def translate(self):
         Translator.translate(self)
         glTranslate(*-self._center)
-        rs = self.scale * self._modelScale
+        rs = self._rs = self.scale * self._modelScale
         glScale(rs, rs, rs)
         glRotate(self.rotX, 1, 0, 0)
         glRotate(self.rotY, 0, 1, 0)
         glRotate(self.rotZ, 0, 0, 1)
+        
+    def untranslate(self):
+        glRotate(self.rotZ, 0, 0, -1)
+        glRotate(self.rotY, 0, -1, 0)
+        glRotate(self.rotX, -1, 0, 0)
+        rs = -self._rs
+        glScale(rs, rs, rs)
+        glTranslate(*self._center)
+        Translator.untranslate(self)
 		
     def draw(self):
         if self._displayList is not None:

@@ -1,5 +1,6 @@
 # -*- tab-width:4 -*-
 
+from Translatable import Translatable
 from Translator import Translator
 from Node import Node
 from Display import getDisplay
@@ -17,25 +18,27 @@ class Light(Translator):
     
     def draw(self, n):
         const = Light.lightConst[n]
+        glEnable(const)
         glLightfv(const, GL_POSITION, (self.x, self.y, self.z, 1.0))
         glLightfv(const, GL_AMBIENT, [self._ambient] * 4)
         glLightfv(const, GL_DIFFUSE, [self._diffuse] * 4)
         glLightfv(const, GL_SPECULAR, [self._specular] * 4)
         return const
 
-class ThreeDScene(Translator, Node):
+class ThreeDScene(Translatable, Node):
 	def __init__(self):
-		Translator.__init__(self)
 		Node.__init__(self)
 		self._lights = []
 		self.cameraX = self.cameraY = 0.0
 		self.cameraZ = -6.0
 		self.pitch = self.yaw = self.roll = 0.0
 		
+		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
 		d = getDisplay()
 		gluPerspective(45.0, float(d.w)/float(d.h), 0.1, 1000.0)
 		self._projMatrix = glGetDoublev(GL_PROJECTION_MATRIX)
+		glMatrixMode(GL_MODELVIEW)
 		
 	def addLight(self, light):
 	    if len(self._lights) > 7:
@@ -49,11 +52,13 @@ class ThreeDScene(Translator, Node):
 		glMatrixMode(GL_PROJECTION)
 		glLoadMatrixd(self._projMatrix)
 
-        flags = GL_ENABLE_BIT
-        flags |= GL_DEPTH_TEST | GL_LIGHTING | GL_NORMALIZE | GL_POLYGON_SMOOTH | GL_TEXTURE_2D
+        glPushAttrib(GL_ALL_ATTRIB_BITS)
+        for flag in (GL_DEPTH_TEST, GL_LIGHTING, GL_NORMALIZE, GL_POLYGON_SMOOTH, GL_TEXTURE_2D):
+            glEnable(flag)
+        glDisable(GL_BLEND)
+        glShadeModel(GL_SMOOTH)
         for i in range(len(self._lights)):
-		    flags |= self._lights[i].draw(i)
-        glPushAttrib(flags)
+		    self._lights[i].draw(i)
 		
 		glMatrixMode(GL_MODELVIEW)
 		glPushMatrix()
@@ -65,6 +70,7 @@ class ThreeDScene(Translator, Node):
 		
 	def untranslate(self):
 	    glPopAttrib()
+	    glShadeModel(GL_SMOOTH)
 
 		glMatrixMode(GL_PROJECTION)
 		glLoadMatrixd(getDisplay()._projMatrix)
