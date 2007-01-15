@@ -32,6 +32,4 @@ class Image:
 			GL_RGBA, GL_UNSIGNED_BYTE, texdata)
 
 	def __del__(self):
-		# I would like to delete the texture here, but for some reason
-		# I get a segfault whenever I try it
 		glDeleteTextures((self._texture,))

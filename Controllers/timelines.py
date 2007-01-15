@@ -22,11 +22,22 @@ class Timeline:
                 L.remove(action)
                 return
 
-    def update(self, time):
-        for action in self._upcomingActions:
-            if action.start() <= time:
-                self._upcomingActions.remove(action)
-                self._currentActions.append(action)
+    def update(self, time, force=False):
+        if time == self._lastUpdate and not force:
+            return
+        elif time < self._lastUpdate:
+            for action in self._pastActions + self._currentActions:
+                if action.start() > time:
+                    self._pastActions.remove(action)
+                    self._upcomingActions.append(action)
+                elif action.start() == time or action.end() > time:
+                    self._pastActions.remove(action)
+                    self._upcomingActions.append(action)
+        else:
+            for action in self._upcomingActions:
+                if action.start() <= time:
+                    self._upcomingActions.remove(action)
+                    self._currentActions.append(action)
         for action in self._currentActions:
             action.update(time)
             if action.end() <= time:

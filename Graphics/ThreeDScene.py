@@ -36,6 +36,7 @@ class ThreeDScene(Translatable, Node):
 		d = getDisplay()
 		gluPerspective(45.0, float(d.w)/float(d.h), 0.1, 1000.0)
 		self._projMatrix = glGetDoublev(GL_PROJECTION_MATRIX)
+		glLoadMatrixd(getDisplay()._projMatrix)
 		glMatrixMode(GL_MODELVIEW)
 		
 	def addLight(self, light):
@@ -66,7 +67,7 @@ class ThreeDScene(Translatable, Node):
 		glTranslatef(self.cameraX, self.cameraY, self.cameraZ)
 		glRotatef(self.roll, 0, 0, 1)
 		glRotatef(self.pitch, 1, 0, 0)
-		#glRotatef(-self.yaw, 0, 1, 0)
+		glRotatef(-self.yaw, 0, 1, 0)
 		
 	def untranslate(self):
 	    glPopAttrib()
