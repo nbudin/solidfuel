@@ -46,8 +46,3 @@ class Sprite(Image, Box, Visible):
 		glEnd()
 		glPopMatrix()
 		
-	def drawWithTranslation(self):
-		translate()
-		draw()
-		untranslate()
-		

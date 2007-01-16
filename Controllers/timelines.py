@@ -23,6 +23,13 @@ class Timeline:
                 return
 
     def update(self, time, force=False):
+        for action in self._currentActions:
+            if action.end() <= time:
+                self._currentActions.remove(action)
+                self._pastActions.append(action)
+                action.update(action.end())
+            else:
+                action.update(time)
         if time == self._lastUpdate and not force:
             return
         elif time < self._lastUpdate:
@@ -36,13 +43,9 @@ class Timeline:
         else:
             for action in self._upcomingActions:
                 if action.start() <= time:
+                    action.update(action.start())
                     self._upcomingActions.remove(action)
                     self._currentActions.append(action)
-        for action in self._currentActions:
-            action.update(time)
-            if action.end() <= time:
-                self._currentActions.remove(action)
-                self._pastActions.append(action)
         self._lastUpdate = time
         self.updated.trigger()
             
