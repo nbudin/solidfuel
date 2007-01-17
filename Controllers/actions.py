@@ -87,20 +87,21 @@ class Pan(Action):
 			self.scene.roll = self.rollCurve.value(time)
 
 class MoveTo(Action):
-	def __init__(self, sprite, curve, source=None, destination=None):
+	def __init__(self, obj, curve, source=None, destination=None):
 		Action.__init__(self, curve)
-		self.sprite = sprite
+		self.obj = obj
 		self._factor = curve.value(curve.end()) - curve.value(curve.start())
 		self._source = source
 		self._destination = destination
 		if source is not None:
 			self._calcChange()
-		self._length = math.sqrt(abs(destination[0] - source[0]) ** 2 +
-								 abs(destination[1] - source[1]) ** 2)
-				
+			sqrsum = 0.0
+			for component in self._change:
+			    sqrsum += abs(component) ** 2
+			self._length = math.sqrt(sqrsum)
+			
 	def _calcChange(self):
-		self._change = (self._destination[0] - self._source[0], 
-						self._destination[1] - self._source[1])
+		self._change = [self._destination[i] - self._source[i] for i in range(len(self._source))]
 						
 	def conflictsWith(self, other):
 		return (issubclass(other.__class__, MoveTo) and self.overlaps(other) and self.sprite is other.sprite)
@@ -110,6 +111,8 @@ class MoveTo(Action):
 			self._source = (sprite.x, sprite.y)
 			self._calcChange()
 		tf = self._factor * self._curve.value(time)
-		self.sprite.x = self._source[0] + (self._change[0] * tf)
-		self.sprite.y = self._source[1] + (self._change[1] * tf)
+		self.obj.x = self._source[0] + (self._change[0] * tf)
+		self.obj.y = self._source[1] + (self._change[1] * tf)
+		if len(self._source) > 2:
+		    self.obj.z = self._source[2] + (self._change[2] * tf)
 		Action.update(self, time)
