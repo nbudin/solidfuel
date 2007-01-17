@@ -76,8 +76,12 @@ class CatmullRomSpline(Curve):
         return len(self._points)
     def addPoint(self, time, value):
         self._points.insert(self._findIndex(time), (time, value))
+    def start(self):
+        return self._points[0][0]
     def end(self):
         return self._points[-1][0]
+    def length(self):
+        return self.end() - self.start()
     def value(self, time):
         if time <= self._points[0][0]:
             return self._points[0][1]
@@ -112,4 +116,5 @@ class CatmullRomSpline(Curve):
         t2 = ((0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])) +
               (0.5 * (nextpoint[1] - endpoint[1]) / (nextpoint[0] - endpoint[0])))
         
-        return h1*startpoint[1] + h2*endpoint[1] + h3*t1 + h4*h2
+        value =  h1*startpoint[1] + h2*endpoint[1] + h3*t1 + h4*h2
+        return value
