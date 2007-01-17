@@ -68,7 +68,7 @@ class ParabolicCurve(Curve):
 		
 class CatmullRomSpline(Curve):
     def __init__(self, start, startvalue):
-        self._points = [(start, starvalue)]
+        self._points = [(start, startvalue)]
     def _findIndex(self, time):
         for i in range(len(self._points)):
             if time < self._points[i][0]:
@@ -84,28 +84,32 @@ class CatmullRomSpline(Curve):
         if time >= self._points[-1][0]:
             return self._points[-1][1]
             
-        timeIndex = self._findIndex(self, time)
+        timeIndex = self._findIndex(time)
         startpoint = self._points[timeIndex - 1]
         endpoint = self._points[timeIndex]
         tdelta = endpoint[0] - startpoint[0]
-        vdelta = endpoint[1] - startpoint[1]
         
-        # "virtual" start and endpoints for tangents
+        # "smooth" start and endpoints for tangents
         if timeIndex > 1:
             prevpoint = self._points[timeIndex - 2]
         else:
-            prevpoint = (startpoint[0] - tdelta, startpoint[1] - vdelta)
-        if timeIndex < len(self._points - 1):
+            prevpoint = (startpoint[0] - tdelta, startpoint[1])
+        if timeIndex < len(self._points) - 1:
             nextpoint = self._points[timeIndex + 1]
         else:
-            nextpoint = (endpoint[0] + tdelta, endpoint[1] + vdelta)
+            nextpoint = (endpoint[0] + tdelta, endpoint[1])
         
         # s ranges linearly from 0.0 - 1.0 within each pair of points
         s = (time - startpoint[0]) / (endpoint[0] - startpoint[0])
         # hermite basis functions
         h1 = 2*(s**3) - 3*(s**2) + 1
-        h2 = -2*(s**3) - 3*(s**2)
+        h2 = -2*(s**3) + 3*(s**2)
         h3 = s**3 - 2*(s**2) + s
         h4 = s**3 - s**2
         
-        h1tp1 = (h1 * startpoint[0], h1 * startpoint[1])
+        t1 = ((0.5 * (startpoint[1] - prevpoint[1]) / (startpoint[0] - prevpoint[0])) +
+              (0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])))
+        t2 = ((0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])) +
+              (0.5 * (nextpoint[1] - endpoint[1]) / (nextpoint[0] - endpoint[0])))
+        
+        return h1*startpoint[1] + h2*endpoint[1] + h3*t1 + h4*h2
