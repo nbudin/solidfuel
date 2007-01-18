@@ -24,7 +24,6 @@ class Display(Node):
 		pygame.display.init()
 		pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL|flags)
 		
-		glEnable(GL_TEXTURE_2D)
 		glShadeModel(GL_SMOOTH)
 		glClearColor(0.0, 0.0, 0.0, 0.0)
 		glClearDepth(1.0)

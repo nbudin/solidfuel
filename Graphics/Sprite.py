@@ -6,6 +6,7 @@ from Visible import Visible
 import pygame
 
 class Sprite(Image, Box, Visible):
+	displayList = None
 	def __init__(self, image):
 		Box.__init__(self)
 		Visible.__init__(self)
@@ -21,19 +22,13 @@ class Sprite(Image, Box, Visible):
 		self.rotY = 0.0
 		self.rotZ = 0.0
 		self.opacity = 1.0
+		if Sprite.displayList is None:
+			self._genDisplayList()
 
-	def draw(self):
-		if self.opacity <= 0.0:
-			return
-		glPushMatrix()
-		glTranslated(self.w / 2, self.h / 2, 0)
-		glScaled(self.w / 2, self.h / 2, 0)
-		glRotate(self.rotX, 1, 0, 0)
-		glRotate(self.rotY, 0, 1, 0)
-		glRotate(self.rotZ, 0, 0, 1)
-		glColor(1.0, 1.0, 1.0, self.opacity)
-		glBindTexture(GL_TEXTURE_2D, self._texture)
-		glColor4f(1.0, 1.0, 1.0, self.opacity)
+	def _genDisplayList(self):
+		Sprite.displayList = glGenLists(1)
+		glNewList(Sprite.displayList, GL_COMPILE)
+
 		glBegin(GL_QUADS)
 		glTexCoord2d(0, 1)
 		glVertex3f(-1, 1, 0)
@@ -44,5 +39,23 @@ class Sprite(Image, Box, Visible):
 		glTexCoord2d(0, 0)
 		glVertex3f(-1, -1, 0)
 		glEnd()
+
+		glEndList()
+		
+	def draw(self):
+		if self.opacity <= 0.0:
+			return
+		glPushMatrix()
+		glTranslated(self.w / 2, self.h / 2, 0)
+		glScaled(self.w / 2, self.h / 2, 0)
+		glRotate(self.rotX, 1, 0, 0)
+		glRotate(self.rotY, 0, 1, 0)
+		glRotate(self.rotZ, 0, 0, 1)
+                glEnable(GL_TEXTURE_2D)
+		glColor(1.0, 1.0, 1.0, self.opacity)
+		glBindTexture(GL_TEXTURE_2D, self._texture)
+		glColor4f(1.0, 1.0, 1.0, self.opacity)
+		glCallList(Sprite.displayList)
+                glDisable(GL_TEXTURE_2D)
 		glPopMatrix()
 		
