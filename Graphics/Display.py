@@ -22,7 +22,7 @@ class Display(Node):
 		self.h = height
 
 		pygame.display.init()
-		pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL|flags)
+		self._surf = pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL|flags)
 		
 		glShadeModel(GL_SMOOTH)
 		glClearColor(0.0, 0.0, 0.0, 0.0)
@@ -75,4 +75,6 @@ class Display(Node):
 	
 	def getCenter(self):
 		return (self.w / 2, self.h / 2)
-			
+	
+	def screenshot(self, filename):
+	    pygame.image.save(self._surf, filename)

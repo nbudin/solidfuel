@@ -12,7 +12,7 @@ class Keyboard(Input):
         self.up = Event()
         self.items = [self.down, self.up]
         
-    def update(self, event):
+    def update(self, e):
         if e.type == KEYDOWN:
             self.down.trigger(e.key)
         elif e.type == KEYUP:
@@ -27,12 +27,12 @@ class Mouse(Input):
         self.down = Event()
         self.up = Event()
         self.items = [self.move, self.down, self.up]
-    def update(self, event):
+    def update(self, e):
         if e.type == MOUSEMOTION:
             self.lastpos = self.pos
-            self.pos = event.pos
-            self.move.trigger(event.rel)
+            self.pos = e.pos
+            self.move.trigger(e.rel)
         elif e.type == MOUSEBUTTONDOWN:
-            self.down.trigger(event.button)
+            self.down.trigger(e.button)
         elif e.type == MOUSEBUTTONUP:
-            self.up.trigger(event.button)
+            self.up.trigger(e.button)

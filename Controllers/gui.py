@@ -1,4 +1,6 @@
 from solidfuel.Graphics import Box, Sprite
+from solidfuel.Logic import Event
+from OpenGL.GL import *
 
 class Cursor(Sprite):
     def __init__(self, image, hotspot=None):
@@ -7,12 +9,19 @@ class Cursor(Sprite):
             self.hotspot = (0, 0)
         else:
             self.hotspot = hotspot
+    def translate(self):
+        Sprite.translate(self)
+        glTranslated(-self.hotspot[0], -self.hotspot[1], 0)
+    
+    def untranslate(self):
+        glTranslated(self.hotspot[0], self.hotspot[1], 0)
+        Sprite.untranslate(self)
 
 class Gui(Box):
-    def __init__(self, cursor, *widgets):
+    def __init__(self, cursor):
         Box.__init__(self)
-        self._widgets = widgets
         self._cursor = cursor
+        self.addChild(self._cursor)
         self._lastover = []
         self._mouse = None
         self._keyboard = None
@@ -41,7 +50,8 @@ class Gui(Box):
             self._keyboard.down.addResponder(self._keyDown)
             self._keyboard.up.addResponder(self._keyUp)
     def _mouseMove(self, amount):
-        (self._cursor.x, self._cursor.y) = self._mouse.pos
+        # display coords are y-flipped
+        (self._cursor.x, self._cursor.y) = (self._mouse.pos[0], self.h - self._mouse.pos[1])
     def _mouseDown(self, button):
         pass
     def _mouseUp(self, button):
