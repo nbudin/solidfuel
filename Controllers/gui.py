@@ -49,6 +49,9 @@ class Gui(Box):
         if keyboard is not None:
             self._keyboard.down.addResponder(self._keyDown)
             self._keyboard.up.addResponder(self._keyUp)
+    def addChild(self, child):
+        Box.addChild(self, child)
+        self.pullToTop(self._cursor)
     def _mouseMove(self, amount):
         # display coords are y-flipped
         (self._cursor.x, self._cursor.y) = (self._mouse.pos[0] - self.x, self._mouse.pos[1] - self.y)

@@ -1,3 +1,5 @@
+# -*- tab-width: 4 -*-
+
 from OpenGL.GL import *
 
 from Image import Image
@@ -15,6 +17,7 @@ class Sprite(Image, Box, Visible):
 			self.h = image.h
 			self._texture = image._texture
 		elif issubclass(image.__class__, pygame.Surface):
+		    self._texture = None
 			Image.initFromSurface(self, image)
 		else:
 			Image.__init__(self, image)
@@ -51,11 +54,11 @@ class Sprite(Image, Box, Visible):
 		glRotate(self.rotX, 1, 0, 0)
 		glRotate(self.rotY, 0, 1, 0)
 		glRotate(self.rotZ, 0, 0, 1)
-                glEnable(GL_TEXTURE_2D)
+        glEnable(GL_TEXTURE_2D)
 		glColor(1.0, 1.0, 1.0, self.opacity)
 		glBindTexture(GL_TEXTURE_2D, self._texture)
 		glColor4f(1.0, 1.0, 1.0, self.opacity)
 		glCallList(Sprite.displayList)
-                glDisable(GL_TEXTURE_2D)
+        glDisable(GL_TEXTURE_2D)
 		glPopMatrix()
 		

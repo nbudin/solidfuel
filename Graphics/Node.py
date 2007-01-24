@@ -26,7 +26,7 @@ class Node:
 		
 	def pullToTop(self, child):
 		self.children.remove(child)
-		children.add(child)
+		self.children.append(child)
 		
 	def pushToBottom(self, child):
 		self.children.remove(child)

@@ -52,9 +52,15 @@ class Rectangle(Box, Visible):
 		if self.borderOpacity > 0.0:
 		    glColor(self.borderColor[0], self.borderColor[1], self.borderColor[2], self.borderOpacity)
 		    
-            xmax = 1 + ((self.borderWidth / 2.0) * (1.0 / self.w))
+		    if self.w == 0.0:
+		        xmax = 1.0
+		    else:
+                xmax = 1 + ((self.borderWidth / 2.0) * (1.0 / self.w))
             xmin = xmax * -1
-            ymax = 1 + ((self.borderWidth / 2.0) * (1.0 / self.h))
+            if self.h == 0.0:
+                ymax = 1.0
+            else:
+                ymax = 1 + ((self.borderWidth / 2.0) * (1.0 / self.h))
             ymin = ymax * -1
 		    glBegin(GL_LINES)
     		# left side

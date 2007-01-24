@@ -34,3 +34,6 @@ class Box(Node, Translator):
 
 	def getCenter(self):
 		return (self.x + self.w / 2, self.y + self.h / 2)
+		
+	def getCenterRel(self):
+	    return (self.w / 2, self.h / 2)

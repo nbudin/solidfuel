@@ -1,3 +1,5 @@
+# -*- tab-width: 4 -*-
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
@@ -8,7 +10,7 @@ from OpenGL.GL.EXT.texture_filter_anisotropic import *
 
 class Image:
 	def __init__(self, filename):
-		self._texture = 0    
+		self._texture = None    
 		surf = pygame.image.load(filename)
 		self.initFromSurface(surf)
 		
@@ -18,6 +20,8 @@ class Image:
 
 		texdata = pygame.image.tostring(surf, "RGBA", 1)
 
+        if self._texture is not None:
+            glDeleteTextures((self._texture,))
 		self._texture = glGenTextures(1)
 		glBindTexture(GL_TEXTURE_2D, self._texture)
 		if config.use_anisotropic:
@@ -32,4 +36,5 @@ class Image:
 			GL_RGBA, GL_UNSIGNED_BYTE, texdata)
 
 	def __del__(self):
-		glDeleteTextures((self._texture,))
+	    if self._texture is not None:
+		    glDeleteTextures((self._texture,))
