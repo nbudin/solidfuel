@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from solidfuel.Logic import EventGroup, Event
+from solidfuel.Graphics import getDisplay
 
 class Input(EventGroup):
     def update(self, event):
@@ -30,7 +31,8 @@ class Mouse(Input):
     def update(self, e):
         if e.type == MOUSEMOTION:
             self.lastpos = self.pos
-            self.pos = e.pos
+            # solidfuel mouse is y-flipped
+            self.pos = (e.pos[0], getDisplay().h - e.pos[1])
             self.move.trigger(e.rel)
         elif e.type == MOUSEBUTTONDOWN:
             self.down.trigger(e.button)

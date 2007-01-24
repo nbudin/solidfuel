@@ -51,7 +51,7 @@ class Gui(Box):
             self._keyboard.up.addResponder(self._keyUp)
     def _mouseMove(self, amount):
         # display coords are y-flipped
-        (self._cursor.x, self._cursor.y) = (self._mouse.pos[0], self.h - self._mouse.pos[1])
+        (self._cursor.x, self._cursor.y) = (self._mouse.pos[0] - self.x, self._mouse.pos[1] - self.y)
     def _mouseDown(self, button):
         pass
     def _mouseUp(self, button):
