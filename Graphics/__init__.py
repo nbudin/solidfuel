@@ -6,6 +6,7 @@ from VisibleNode import VisibleNode
 from Display import Display, getDisplay
 from Image import Image
 from Sprite import Sprite
+from Rect import Rectangle
 from Text import Text
 from Box import Box
 from HBox import HBox
