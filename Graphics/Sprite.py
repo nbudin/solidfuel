@@ -15,6 +15,8 @@ class Sprite(Image, Box, Visible):
 		if issubclass(image.__class__, Image):
 			self.w = image.w
 			self.h = image.h
+			self.nativeW = image.nativeW
+			self.nativeH = image.nativeH
 			self._texture = image._texture
 		elif issubclass(image.__class__, pygame.Surface):
 		    self._texture = None

@@ -15,8 +15,8 @@ class Image:
 		self.initFromSurface(surf)
 		
 	def initFromSurface(self, surf):
-		self.w = surf.get_width()
-		self.h = surf.get_height()
+		self.nativeW = self.w = surf.get_width()
+		self.nativeH = self.h = surf.get_height()
 
 		texdata = pygame.image.tostring(surf, "RGBA", 1)
 

@@ -11,6 +11,7 @@ from Text import Text
 from Box import Box
 from HBox import HBox
 from VBox import VBox
+from TextWrapper import TextWrapper
 from ThreeDScene import ThreeDScene, Light
 from RotoZoomer import RotoZoomer
 from Model import Model

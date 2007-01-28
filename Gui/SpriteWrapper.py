@@ -1,9 +1,9 @@
-from solidfuel.Graphics import Translator, Node
+from solidfuel.Graphics import Translator, Box
 
-class SpriteWrapper(Translator, Node):
+class SpriteWrapper(Translator, Box):
     def __init__(self):
         Translator.__init__(self)
-        Node.__init__(self)
+        Box.__init__(self)
         self.update()
         self.untranslate()
         

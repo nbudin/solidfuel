@@ -6,6 +6,10 @@ class Action:
         self._curve = curve
         self._lastUpdate = 0
         self.updated = Event()
+        
+        # these are triggered by Timelines
+        self.started = Event()
+        self.finished = Event()
 
     def conflictsWith(self, other):
         return False
