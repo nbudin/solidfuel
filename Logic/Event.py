@@ -1,11 +1,13 @@
 class Event:
-    def __init__(self, copyEvent=None):
+    def __init__(self, copyEvent=None, prototype=None):
         if copyEvent is None:
             self._responders = []
             self._active = True
+            self._prototype = prototype
         else:
             self._responders = copyEvent._responders
             self._active = copyEvent._active
+            self._prototype = copyEvent._prototype
 
     def addResponder(self, resp):
         self._responders.append(resp)
