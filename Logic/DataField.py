@@ -20,7 +20,7 @@ class DataField:
         return str(self._value)
         
     def __repr__(self):
-        return "\%s/" % (str(self))
+        return "\%s/" % (str(self.get()))
         
     def _mkcond(self, value, method, pollEvent):
         def pollFunc():
