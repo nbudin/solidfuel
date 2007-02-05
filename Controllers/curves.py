@@ -66,6 +66,11 @@ class ParabolicCurve(Curve):
 			y *= -1
 		return y
 		
+class SineWave(Curve):
+    def __init__(self, start, period, amplitude=1.0, min=0.0):
+        Curve.__init__(self, start)
+        self._start = start
+		
 class CatmullRomSpline(Curve):
     def __init__(self, start, startvalue):
         self._points = [(start, startvalue)]

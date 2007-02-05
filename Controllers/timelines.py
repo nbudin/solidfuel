@@ -13,7 +13,7 @@ class Timeline:
         self.updated = Event()
 
     def addAction(self, action):
-        if action.end() <= self._lastUpdate:
+        if action.end() and action.end() <= self._lastUpdate:
             self._pastActions.append(action)
         elif action.start() <= self._lastUpdate:
             self._currentActions.append(action)
@@ -32,13 +32,14 @@ class Timeline:
             self._everUpdated = True
             
         for action in self._currentActions:
-            if action.end() <= time:
+            if action.end() and action.end() <= time:
                 self._currentActions.remove(action)
                 self._pastActions.append(action)
                 action.finished.trigger()
                 if len(self._currentActions) == len(self._upcomingActions) == 0:
                     self.finished.trigger()
-                action.update(action.end())
+                if action.end():
+                    action.update(action.end())
             else:
                 action.update(time)
         if time == self._lastUpdate and not force:
@@ -48,7 +49,7 @@ class Timeline:
                 if action.start() > time:
                     self._pastActions.remove(action)
                     self._upcomingActions.append(action)
-                elif action.start() == time or action.end() > time:
+                elif action.start() == time or (action.end() and action.end() > time):
                     self._pastActions.remove(action)
                     self._upcomingActions.append(action)
         else:
