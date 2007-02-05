@@ -11,8 +11,8 @@ class EventGroup:
         if alreadySet.has_key(self):
             return
         alreadySet[self] = 1
-        for item in self._items:
-            if issubclass(item, EventGroup):
+        for item in self.items:
+            if issubclass(item.__class__, EventGroup):
                 item.setActive(value, alreadySet)
             else:
                 item.setActive(value)
@@ -25,11 +25,8 @@ class EventGroup:
         if alreadyCalled.has_key(self):
             return
         alreadyCalled[self] = 1
-        for item in self._items:
-            if issubclass(item, EventGroup):
+        for item in self.items:
+            if issubclass(item.__class__, EventGroup):
                 item._innerCall(args, kwargs, alreadyCalled)
             else:
                 item.trigger(*args, **kwargs)
-
-        
-    
