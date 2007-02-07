@@ -3,10 +3,13 @@
 import math
 
 class Curve:
-    def __init__(self, start, length):
+    def __init__(self, start, length=None):
         self._start = start
         self._length = length
-        self._end = start + length
+        if self._length is not None:
+            self._end = start + length
+        else:
+            self._end = None
 
     def start(self):
         return self._start
@@ -67,9 +70,13 @@ class ParabolicCurve(Curve):
 		return y
 		
 class SineWave(Curve):
-    def __init__(self, start, period, amplitude=1.0, min=0.0):
+    def __init__(self, start, period, max=1.0, min=0.0):
         Curve.__init__(self, start)
-        self._start = start
+        self._freq = (2 * 3.14159) / period
+        self._amplitude = (max - min) / 2.0
+        self._y = min + 1.0
+    def value(self, time):
+        return self._amplitude * math.sin(self._freq * (time - self._start)) + self._y
 		
 class CatmullRomSpline(Curve):
     def __init__(self, start, startvalue):
