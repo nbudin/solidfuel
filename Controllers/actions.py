@@ -1,8 +1,10 @@
 from solidfuel.Logic import Event, Condition
+from solidfuel.Graphics import Sprite, Rectangle
 import math
+import pygame
 
 class Action:
-    def __init__(self, curve):
+    def __init__(self, curve=None):
         self._curve = curve
         self._lastUpdate = 0
         self.updated = Event()
@@ -56,7 +58,10 @@ class Fade(Action):
         return (issubclass(other.__class__, Fade) and self.overlaps(other) and self.sprite is other.sprite)
 
     def update(self, time):
-        self.sprite.opacity = self._curve.value(time)
+        if issubclass(self.sprite.__class__, Sprite):
+            self.sprite.opacity = self._curve.value(time)
+        elif issubclass(self.sprite.__class__, Rectangle):
+            self.sprite.fillOpacity = self._curve.value(time)
         Action.update(self, time)
 
 class RotoZoom(Action):
@@ -89,6 +94,43 @@ class Pan(Action):
 			self.scene.yaw = self.yawCurve.value(time)
 		if self.rollCurve is not None:
 			self.scene.roll = self.rollCurve.value(time)
+			
+class PlaySound(Action):
+    def __init__(self, sound, start, times=1, delay=0.0):
+        Action.__init__(self)
+        self._sound = sound
+        self._times = times
+        self._delay = delay
+        self._start = start
+        self._lastPlayed = None
+        
+    def start(self):
+        return self._start
+        
+    def end(self):
+        if self._times < 1:
+            return None
+        return self.start() + self.length()
+        
+    def length(self):
+        if self._times < 1:
+            return None
+        return (self._sound.get_length() * times) + (self._delay * (times-1))
+        
+    def update(self, time):
+        if self._lastPlayed is None:
+            self._sound.play()
+            self._lastPlayed = self._start
+            return
+        
+        end = self.end()
+        if end is not None and time > end:
+            return
+        
+        nextPlay = self._lastPlayed + (self._delay + self._sound.get_length())
+        if time >= nextPlay:
+            self._sound.play()
+            self._lastPlayed = nextPlay
 
 class MoveTo(Action):
 	def __init__(self, obj, curve, source=None, destination=None):

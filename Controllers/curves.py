@@ -74,7 +74,7 @@ class SineWave(Curve):
         Curve.__init__(self, start)
         self._freq = (2 * 3.14159) / period
         self._amplitude = (max - min) / 2.0
-        self._y = min + 1.0
+        self._y = min + self._amplitude
     def value(self, time):
         return self._amplitude * math.sin(self._freq * (time - self._start)) + self._y
 		
