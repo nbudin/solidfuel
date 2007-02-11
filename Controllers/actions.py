@@ -1,11 +1,16 @@
+# -*- tab-width: 4 -*-
+
 from solidfuel.Logic import Event, Condition
 from solidfuel.Graphics import Sprite, Rectangle
 import math
 import pygame
 
 class Action:
-    def __init__(self, curve=None):
-        self._curve = curve
+    def __init__(self, curves=None):
+        if not hasattr(curves, '__len__') and curves is not None:
+            self._curve = curves
+            curves = [curves]
+        self._curves = filter(lambda c: c is not None, curves)
         self._lastUpdate = 0
         self.updated = Event()
         
@@ -21,13 +26,15 @@ class Action:
                 (other.start() <= self.end() <= other.end()))
 
     def start(self):
-        return self._curve.start()
+        return min([c.start() for c in self._curves])
 
     def end(self):
-        return self._curve.end()
+        if self._curves is None:
+            return None
+        return max([c.end() for c in self._curves])
 
     def length(self):
-        return self._curve.length()
+        return self.end() - self.start()
 
     def _innerStarted(self):
         return self._lastUpdate >= self.start()
@@ -81,7 +88,7 @@ class RotoZoom(Action):
 
 class Pan(Action):
 	def __init__(self, scene, pitchCurve=None, yawCurve=None, rollCurve=None):
-		Action.__init__(self, pitchCurve)
+		Action.__init__(self, (pitchCurve, yawCurve, rollCurve))
 		self.scene = scene
 		self.pitchCurve = pitchCurve
 		self.yawCurve = yawCurve
@@ -95,6 +102,40 @@ class Pan(Action):
 		if self.rollCurve is not None:
 			self.scene.roll = self.rollCurve.value(time)
 			
+
+			
+class Track(Action):
+    def __init__(self, scene, xCurve=None, yCurve=None, zCurve=None):
+        Action.__init__(self, (xCurve, yCurve, zCurve))
+        self.scene = scene
+        self.xCurve = xCurve
+        self.yCurve = yCurve
+        self.zCurve = zCurve
+        
+    def update(self, time):
+        if self.xCurve is not None:
+			self.scene.cameraX = self.xCurve.value(time)
+		if self.yCurve is not None:
+			self.scene.cameraY = self.yCurve.value(time)
+		if self.zCurve is not None:
+			self.scene.cameraZ = self.zCurve.value(time)
+			
+class Rotate(Action):
+    def __init__(self, obj, xCurve=None, yCurve=None, zCurve=None):
+        Action.__init__(self, (xCurve, yCurve, zCurve))
+        self.obj = obj
+        self.xCurve = xCurve
+        self.yCurve = yCurve
+        self.zCurve = zCurve
+
+    def update(self, time):
+        if self.xCurve is not None:
+			self.obj.rotX = self.xCurve.value(time)
+		if self.yCurve is not None:
+			self.obj.rotY = self.yCurve.value(time)
+		if self.zCurve is not None:
+			self.obj.rotZ = self.zCurve.value(time)
+        
 class PlaySound(Action):
     def __init__(self, sound, start, times=1, delay=0.0):
         Action.__init__(self)

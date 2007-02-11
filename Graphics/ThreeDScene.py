@@ -55,6 +55,7 @@ class ThreeDScene(Translatable, Node):
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         for flag in (GL_DEPTH_TEST, GL_LIGHTING, GL_NORMALIZE, GL_BLEND, GL_POLYGON_SMOOTH):
             glEnable(flag)
+        glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
         glDisable(GL_TEXTURE_2D) # Model will handle this for us automatically
         glDisable(GL_BLEND)
         glShadeModel(GL_SMOOTH)
@@ -64,10 +65,10 @@ class ThreeDScene(Translatable, Node):
 		glMatrixMode(GL_MODELVIEW)
 		glPushMatrix()
 		glLoadIdentity()
-		glTranslatef(self.cameraX, self.cameraY, self.cameraZ)
 		glRotatef(self.roll, 0, 0, 1)
 		glRotatef(self.pitch, 1, 0, 0)
 		glRotatef(-self.yaw, 0, 1, 0)
+		glTranslatef(-self.cameraX, -self.cameraY, -self.cameraZ)
 		
 	def untranslate(self):
 	    glPopAttrib()
