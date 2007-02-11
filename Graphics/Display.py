@@ -36,7 +36,7 @@ class Display(Node):
 		glViewport(0, 0, self.w, self.h)
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
-		glFrustum(0, self.w, 0, self.h, 6.0, 100.0)
+		glOrtho(0, self.w, 0, self.h, 6.0, 100.0)
 		self._projMatrix = glGetDoublev(GL_PROJECTION_MATRIX)
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
