@@ -28,7 +28,7 @@ class ThreeDScene(Translatable, Node):
 		Node.__init__(self)
 		self._lights = []
 		self.cameraX = self.cameraY = 0.0
-		self.cameraZ = -6.0
+		self.cameraZ = 6.0
 		self.pitch = self.yaw = self.roll = 0.0
 		
 		glMatrixMode(GL_PROJECTION)
@@ -53,8 +53,10 @@ class ThreeDScene(Translatable, Node):
 		
         glPushAttrib(GL_ALL_ATTRIB_BITS)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        for flag in (GL_DEPTH_TEST, GL_LIGHTING, GL_NORMALIZE, GL_BLEND, GL_POLYGON_SMOOTH):
+        for flag in (GL_DEPTH_TEST, GL_LIGHTING, GL_NORMALIZE, GL_BLEND, 
+            GL_POLYGON_SMOOTH, GL_LINE_SMOOTH):
             glEnable(flag)
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
         glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
         glDisable(GL_TEXTURE_2D) # Model will handle this for us automatically
         glDisable(GL_BLEND)
