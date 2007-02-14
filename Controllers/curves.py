@@ -77,7 +77,7 @@ class SineWave(Curve):
         self._y = min + self._amplitude
     def value(self, time):
         return self._amplitude * math.sin(self._freq * (time - self._start)) + self._y
-		
+        
 class CatmullRomSpline(Curve):
     def __init__(self, start, startvalue):
         self._points = [(start, startvalue)]
@@ -130,3 +130,35 @@ class CatmullRomSpline(Curve):
         
         value =  h1*startpoint[1] + h2*endpoint[1] + h3*t1 + h4*h2
         return value
+        
+class Motion(Curve):
+    def __init__(self, start, startvalue, speed, accelspeed):
+        Curve.__init__(self, start)
+        self._lastUpdate = self._start
+        self._lastValue = startvalue
+        self._speed = speed
+        self._speedCurve = None
+        self._accelSpeed = accelspeed
+        
+    def changeSpeed(self, time, newSpeed):
+        curSpeed = self.speed(time)
+        self._lastValue = self.value(time)
+        self._lastUpdate = time
+        diff = abs(newSpeed - curSpeed)
+        targetTime = time + (diff / self._accelSpeed)
+        self._speedCurve = CatmullRomSpline(time, curSpeed)
+        self._speedCurve.addPoint(targetTime, newSpeed)
+    
+    def speed(self, time):
+        if self._speedCurve is None:
+            return self._speed
+        else:
+            if time > self._speedCurve.end():
+                self._speed = self._speedCurve.value(time)
+                self._speedCurve = None
+                return self._speed
+            else:
+                return self._speedCurve.value(time)
+            
+    def value(self, time):
+        return self._lastValue + ((time - self._lastUpdate) * self.speed(time))
