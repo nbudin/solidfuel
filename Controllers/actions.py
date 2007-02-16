@@ -10,6 +10,8 @@ class Action:
         if not hasattr(curves, '__len__') and curves is not None:
             self._curve = curves
             curves = [curves]
+        if curves is None:
+            curves = []
         self._curves = filter(lambda c: c is not None, curves)
         self._lastUpdate = 0
         self.updated = Event()
@@ -135,6 +137,22 @@ class Rotate(Action):
 			self.obj.rotY = self.yCurve.value(time)
 		if self.zCurve is not None:
 			self.obj.rotZ = self.zCurve.value(time)
+        
+class Move3D(Action):
+    def __init__(self, obj, curve):
+        Action.__init__(self, curve)
+        self._obj = obj
+    
+    def update(self, time):
+        (self._obj.x, self._obj.y, self._obj.z) = self._curve.value(time)
+        
+class Track3D(Action):
+    def __init__(self, scene, curve):
+        Action.__init__(self, curve)
+        self._scene = scene
+    
+    def update(self, time):
+        (self._scene.cameraX, self._scene.cameraY, self._scene.cameraZ) = self._curve.value(time)
         
 class PlaySound(Action):
     def __init__(self, sound, start, times=1, delay=0.0):
