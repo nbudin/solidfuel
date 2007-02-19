@@ -52,7 +52,7 @@ class ThreeDScene(Translatable, Node):
 		glLoadMatrixd(self._projMatrix)
 		
         glPushAttrib(GL_ALL_ATTRIB_BITS)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        glClear(GL_DEPTH_BUFFER_BIT)
         for flag in (GL_DEPTH_TEST, GL_LIGHTING, GL_NORMALIZE, GL_BLEND, 
             GL_POLYGON_SMOOTH, GL_LINE_SMOOTH):
             glEnable(flag)

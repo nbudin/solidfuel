@@ -15,3 +15,5 @@ from TextWrapper import TextWrapper
 from ThreeDScene import ThreeDScene, Light
 from RotoZoomer import RotoZoomer
 from Model import Model
+from Point import Point
+from Line import Line

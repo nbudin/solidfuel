@@ -67,10 +67,10 @@ class Fade(Action):
         return (issubclass(other.__class__, Fade) and self.overlaps(other) and self.sprite is other.sprite)
 
     def update(self, time):
-        if issubclass(self.sprite.__class__, Sprite):
-            self.sprite.opacity = self._curve.value(time)
-        elif issubclass(self.sprite.__class__, Rectangle):
+        if issubclass(self.sprite.__class__, Rectangle):
             self.sprite.fillOpacity = self._curve.value(time)
+        else:
+            self.sprite.opacity = self._curve.value(time)
         Action.update(self, time)
 
 class RotoZoom(Action):

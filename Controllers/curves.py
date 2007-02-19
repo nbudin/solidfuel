@@ -1,6 +1,6 @@
 # -*- tab-width: 4 -*-
 
-import math
+import math, random
 
 class Curve:
     def __init__(self, start, length=None):
@@ -130,7 +130,20 @@ class CatmullRomSpline(Curve):
         
         value =  h1*startpoint[1] + h2*endpoint[1] + h3*t1 + h4*h2
         return value
+
+class Tremor(Curve):
+    def __init__(self, start, length, magnitude=1.0):
+        Curve.__init__(self, start, length)
+        self._magnitude = magnitude
         
+    def value(self, time):
+        if time < self._start:
+            return 0.0
+        elif time > self._end:
+            return 0.0
+        cmag = self._magnitude * (1.0 - ((time - self._start) / self._length))
+        return (random.random() * (2*cmag)) - cmag
+
 class Motion(Curve):
     def __init__(self, start, startvalue, speed, accelspeed):
         Curve.__init__(self, start)

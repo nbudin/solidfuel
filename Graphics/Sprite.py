@@ -51,16 +51,19 @@ class Sprite(Image, Box, Visible):
 		if self.opacity <= 0.0:
 			return
 		glPushMatrix()
+		glPushAttrib(GL_ALL_ATTRIB_BITS)
+		glDisable(GL_LIGHTING)
+		glEnable(GL_BLEND)
 		glTranslated(self.w / 2, self.h / 2, 0)
 		glScaled(self.w / 2, self.h / 2, 0)
 		glRotate(self.rotX, 1, 0, 0)
 		glRotate(self.rotY, 0, 1, 0)
 		glRotate(self.rotZ, 0, 0, 1)
         glEnable(GL_TEXTURE_2D)
-		glColor(1.0, 1.0, 1.0, self.opacity)
 		glBindTexture(GL_TEXTURE_2D, self._texture)
 		glColor4f(1.0, 1.0, 1.0, self.opacity)
 		glCallList(Sprite.displayList)
         glDisable(GL_TEXTURE_2D)
+        glPopAttrib()
 		glPopMatrix()
 		
