@@ -1,4 +1,4 @@
-from Node import Node
+from Node import Node, ChildAlreadyExistsException
 from Translatable import Translatable
 from Translator import Translator
 from Visible import Visible

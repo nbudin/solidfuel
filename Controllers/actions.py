@@ -174,7 +174,7 @@ class PlaySound(Action):
     def length(self):
         if self._times < 1:
             return None
-        return (self._sound.get_length() * times) + (self._delay * (times-1))
+        return (self._sound.get_length() * self._times) + (self._delay * (self._times-1))
         
     def update(self, time):
         if self._lastPlayed is None:
@@ -183,7 +183,7 @@ class PlaySound(Action):
             return
         
         end = self.end()
-        if end is not None and time > end:
+        if end is not None and time >= end:
             return
         
         nextPlay = self._lastPlayed + (self._delay + self._sound.get_length())
