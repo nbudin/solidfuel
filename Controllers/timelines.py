@@ -2,9 +2,7 @@ from solidfuel.Logic.Event import Event
 
 class Timeline:
     def __init__(self):
-        self._upcomingActions = []
-        self._currentActions = []
-        self._pastActions = []
+        self.clearActions()
         self._lastUpdate = 0.0
         self._everUpdated = False
         
@@ -25,6 +23,11 @@ class Timeline:
             if action in L:
                 L.remove(action)
                 return
+    
+    def clearActions(self):
+        self._upcomingActions = []
+        self._currentActions = []
+        self._pastActions = []
 
     def update(self, time, force=False):
         if not self._everUpdated:
@@ -47,11 +50,15 @@ class Timeline:
         elif time < self._lastUpdate:
             for action in self._pastActions + self._currentActions:
                 if action.start() > time:
-                    self._pastActions.remove(action)
+                    if action in self._pastActions:
+                        self._pastActions.remove(action)
+                    if action in self._currentActions:
+                        self._currentActions.remove(action)
                     self._upcomingActions.append(action)
                 elif action.start() == time or (action.end() and action.end() > time):
-                    self._pastActions.remove(action)
-                    self._upcomingActions.append(action)
+                    if action in self._pastActions:
+                        self._pastActions.remove(action)
+                    self._currentActions.append(action)
         else:
             for action in self._upcomingActions:
                 if action.start() <= time:
