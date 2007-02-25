@@ -2,7 +2,7 @@ from Numeric import *
 
 class Vector:
     def __init__(self, *contents):
-        self._v = array(contents, Numeric.Float)
+        self._v = array(contents, Float)
     def __len__(self):
         return len(self._v)
     def __getitem__(self, i):

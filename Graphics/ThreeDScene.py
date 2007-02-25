@@ -6,6 +6,7 @@ from Node import Node
 from Display import getDisplay
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from solidfuel.Math import Vector
 
 class Light(Translator):
     def __init__(self):
@@ -46,6 +47,9 @@ class ThreeDScene(Translatable, Node):
 	    
 	def removeLight(self, light):
 	    self._lights.remove(light)
+	    
+	def getCameraPos(self):
+	    return Vector(self.cameraX, self.cameraY, self.cameraZ)
 		
 	def translate(self):
 		glMatrixMode(GL_PROJECTION)

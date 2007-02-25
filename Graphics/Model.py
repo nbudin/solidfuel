@@ -38,6 +38,7 @@ class Model(VisibleNode, Translator):
         self._modelScale = 1.0 / max(abs(bb[0] - bb[1]))
     
     def translate(self):
+        glPushMatrix()
         Translator.translate(self)
         glTranslate(*-self._center)
         rs = self._rs = self.scale * self._modelScale
@@ -47,20 +48,14 @@ class Model(VisibleNode, Translator):
         glRotate(self.rotZ, 0, 0, 1)
         
     def untranslate(self):
-        glRotate(self.rotZ, 0, 0, -1)
-        glRotate(self.rotY, 0, -1, 0)
-        glRotate(self.rotX, -1, 0, 0)
-        rs = -self._rs
-        glScale(rs, rs, rs)
-        glTranslate(*self._center)
-        Translator.untranslate(self)
+        glPopMatrix()
 		
     def draw(self):
         if self._displayList is not None:
             glCallList(self._displayList)
         else:
             self._model.render()
-    
+            
     def _loadTexture(self, filename):
         if Model.texcache.has_key(filename):
             return Model.texcache[filename]

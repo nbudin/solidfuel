@@ -153,7 +153,7 @@ class Track3D(Action):
     
     def update(self, time):
         (self._scene.cameraX, self._scene.cameraY, self._scene.cameraZ) = self._curve.value(time)
-        
+
 class PlaySound(Action):
     def __init__(self, sound, start, times=1, delay=0.0):
         Action.__init__(self)
