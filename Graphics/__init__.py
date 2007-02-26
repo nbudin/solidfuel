@@ -17,3 +17,4 @@ from RotoZoomer import RotoZoomer
 from Model import Model
 from Point import Point
 from Line import Line
+from Sphere import Sphere

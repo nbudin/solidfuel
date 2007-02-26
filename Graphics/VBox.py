@@ -1,3 +1,5 @@
+# -*- tab-width: 4 -*-
+
 from Box import Box
 import solidfuel.constants
 import pygame
@@ -12,20 +14,17 @@ class VBox(Box):
 	    # This is more complex than HBox because the coordinate system is Y-flipped
 		curY = 0.0
 		totalW = 0.0
+		totalH = 0.0
 		# pass 1: space all children relative to each other
-		for child in self.children:
+		revchildren = self.children[:]
+		revchildren.reverse()
+		for child in revchildren:
 			child.y = curY
-			curY -= child.h
-			curY -= self.padding
+			curY += child.h
+			curY += self.padding
 			if totalW < child.w:
 				totalW = child.w
-		# pass 1.5: calculate total height
-		if self.children:
-		    totalH = (-curY) - (self.children[-1].h + self.padding)
-		# pass 2: bump all children up so that the lowest one is at 0.0 height
-		for child in self.children:
-		    child.y += totalH
-		# pass 3: justify all children
+		# pass 2: justify all children
 		for child in self.children:
 			if self.justify & solidfuel.constants.LEFT:
 				child.x = 0
@@ -33,6 +32,9 @@ class VBox(Box):
 				child.x = totalW - child.w
 			elif self.justify & solidfuel.constants.CENTER:
 				child.x = totalW / 2 - child.w / 2
-		self.h = -(curY + self.padding)
+		if self.children:
+		    self.h = self.children[0].y + self.children[0].h
+		else:
+		    self.h = 0.0
 		self.w = totalW
 			
