@@ -148,6 +148,8 @@ class Gui(Box):
         over = []
         for widget in self._widgets:
             rect = self._widgetRect(widget)
+            if rect is None:
+                continue
             if (rect.collidepoint(self._cursor.x, self._cursor.y) or 
                 (hasattr(widget, 'mouseIn') and widget.mouseIn)):
                 if widget not in self._lastover:
