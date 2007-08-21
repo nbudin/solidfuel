@@ -9,6 +9,7 @@ from OpenGL.GL.EXT.texture_filter_anisotropic import *
 
 
 class Image:
+    nextTextures = None
 	def __init__(self, filename):
 		self._texture = None    
 		surf = pygame.image.load(filename)
@@ -20,9 +21,9 @@ class Image:
 
 		texdata = pygame.image.tostring(surf, "RGBA", 1)
 
-        if self._texture is not None:
-            glDeleteTextures((self._texture,))
-		self._texture = glGenTextures(1)
+		if Image.nextTextures is None:
+			Image.nextTextures = list(glGenTextures(1000))
+		self._texture = Image.nextTextures.pop()
 		glBindTexture(GL_TEXTURE_2D, self._texture)
 		if config.use_anisotropic:
 			try:
@@ -34,7 +35,3 @@ class Image:
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR)
 		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, surf.get_width(), surf.get_height(), 
 			GL_RGBA, GL_UNSIGNED_BYTE, texdata)
-
-	def __del__(self):
-	    if self._texture is not None:
-		    glDeleteTextures((self._texture,))
