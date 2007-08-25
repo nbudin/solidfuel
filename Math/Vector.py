@@ -1,8 +1,8 @@
-from Numeric import *
+from numpy import array, add, dot, float32, sqrt
 
 class Vector:
     def __init__(self, *contents):
-        self._v = array(contents, Float)
+        self._v = array(contents, float32)
     def __len__(self):
         return len(self._v)
     def __getitem__(self, i):
