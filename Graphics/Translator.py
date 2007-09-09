@@ -14,7 +14,7 @@ class Translator(Translatable):
         return Vector(self.x, self.y, self.z)
 	
 	def translate(self):
-		glTranslated(self.x, self.y, self.z)
+		glTranslated(float(self.x), float(self.y), float(self.z))
 		
 	def untranslate(self):
-        glTranslated(-self.x, -self.y, -self.z)
+        glTranslated(float(-self.x), float(-self.y), float(-self.z))
