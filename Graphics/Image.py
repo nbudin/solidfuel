@@ -12,7 +12,10 @@ class Image:
     nextTextures = None
     def __init__(self, f, filenamehint = None):
         self._texture = None
-        surf = pygame.image.load(f, filenamehint)
+        if filenamehint is not None:
+            surf = pygame.image.load(f, filenamehint)
+        else:
+            surf = pygame.image.load(f)
         self.initFromSurface(surf)
 
     def initFromSurface(self, surf):
