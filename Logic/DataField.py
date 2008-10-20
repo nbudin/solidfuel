@@ -5,10 +5,14 @@ class DataField:
     def __init__(self, value=None):
         self._value = value
         self._setEvent = Event()
+        
+    def _setInner(self, value):
+        self._value = value
     
     def set(self, value):
-        self._value = value
-        self._setEvent.trigger(value)
+        if value != self.get():
+            self._setInner(value)
+            self._setEvent.trigger(value)
     
     def get(self):
         return self._value

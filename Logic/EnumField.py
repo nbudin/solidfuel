@@ -26,9 +26,8 @@ class EnumField(DataField):
             return self._decode[value]
         return None
         
-    def set(self, value):
+    def _setInner(self, value):
         self._value = self.encode(value)
-        self._setEvent.trigger(value)
         
     def get(self):
         return self.decode(DataField.get(self))
