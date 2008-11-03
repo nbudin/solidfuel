@@ -22,6 +22,17 @@ class Curve:
         
     def value(self, time):
         raise "This is an abstract class."
+        
+class ConstantCurve(Curve):
+    def __init__(self, start, value, length=None):
+        Curve.__init__(self, start, length)
+        self._value = value
+        
+    def value(self, time):
+        if self.start() <= time and (self.end() is None or time <= self.end()):
+            return self._value
+        else:
+            return 0.0
 
 class LinearCurve(Curve):
     def __init__(self, start, length, startvalue, amount):

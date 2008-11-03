@@ -15,7 +15,7 @@ class Sphere(VisibleNode, Translator):
 	displayList = None
 	precision = 16
 	
-	def __init__(self, radius, image):
+	def __init__(self, radius, image=None):
 	    VisibleNode.__init__(self)
 	    Translator.__init__(self)
 	    
@@ -67,7 +67,8 @@ class Sphere(VisibleNode, Translator):
 		glRotate(self.rotZ, 0, 0, 1)
         glEnable(GL_TEXTURE_2D)
         glDisable(GL_BLEND)
-		glBindTexture(GL_TEXTURE_2D, self._image._texture)
+        if self._image:
+		    glBindTexture(GL_TEXTURE_2D, self._image._texture)
 		glCallList(Sphere.displayList)
         glPopAttrib()
 		glPopMatrix()
