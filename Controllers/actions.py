@@ -137,6 +137,19 @@ class Rotate(Action):
 			self.obj.rotY = self.yCurve.value(time)
 		if self.zCurve is not None:
 			self.obj.rotZ = self.zCurve.value(time)
+			
+class Resize(Action):
+    def __init__(self, obj, wCurve=None, hCurve=None):
+        Action.__init__(self, (wCurve, hCurve))
+        self.obj = obj
+        self.wCurve = wCurve
+        self.hCurve = hCurve
+    
+    def update(self, time):
+        if self.wCurve is not None:
+            self.obj.w = self.wCurve.value(time)
+        if self.hCurve is not None:
+            self.obj.h = self.hCurve.value(time)
         
 class Move3D(Action):
     def __init__(self, obj, curve):
