@@ -69,6 +69,7 @@ class Fade(Action):
     def update(self, time):
         if issubclass(self.sprite.__class__, Rectangle):
             self.sprite.fillOpacity = self._curve.value(time)
+            self.sprite.borderOpacity = self._curve.value(time)
         else:
             self.sprite.opacity = self._curve.value(time)
         Action.update(self, time)
