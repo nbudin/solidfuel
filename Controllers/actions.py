@@ -168,15 +168,13 @@ class Track3D(Action):
     def update(self, time):
         (self._scene.cameraX, self._scene.cameraY, self._scene.cameraZ) = self._curve.value(time)
 
-class PlaySound(Action):
-    def __init__(self, sound, start, times=1, delay=0.0):
-        Action.__init__(self)
-        self._sound = sound
+class PlayMedia(Action):
+    def __init__(self, start, times=1, delay=0.0):
         self._times = times
         self._delay = delay
         self._start = start
         self._lastPlayed = None
-        
+    
     def start(self):
         return self._start
         
@@ -189,10 +187,13 @@ class PlaySound(Action):
         if self._times < 1:
             return None
         return (self._sound.get_length() * self._times) + (self._delay * (self._times-1))
-        
+    
+    def _playMedia(self):
+        raise "This is an abstract class."
+
     def update(self, time):
         if self._lastPlayed is None:
-            self._sound.play()
+            self._playMedia()
             self._lastPlayed = self._start
             return
         
@@ -202,8 +203,26 @@ class PlaySound(Action):
         
         nextPlay = self._lastPlayed + (self._delay + self._sound.get_length())
         if time >= nextPlay:
-            self._sound.play()
+            self._playMedia()
             self._lastPlayed = nextPlay
+
+
+class PlaySound(PlayMedia):
+    def __init__(self, sound, start, times=1, delay=0.0):
+        PlayMedia.__init__(self, start, times, delay)
+        self._sound = sound
+    
+    def _playMedia(self):
+        self._sound.play()
+
+            
+class PlayMovie(PlayMedia):
+    def __init__(self, movie, start, times=1, delay=0.0):
+        Action.__init__(self)
+        self._movie = movie
+        
+    def _playMedia(self):
+        self._movie.play()
 
 class MoveTo(Action):
 	def __init__(self, obj, curve, source=None, destination=None):
