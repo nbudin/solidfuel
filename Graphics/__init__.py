@@ -18,3 +18,4 @@ from Model import Model
 from Point import Point
 from Line import Line
 from Sphere import Sphere
+from Movie import Movie
