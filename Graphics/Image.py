@@ -6,23 +6,25 @@ import pygame
 from pygame.locals import *
 from solidfuel import config
 from OpenGL.GL.EXT.texture_filter_anisotropic import *
-
+from types import StringType
 
 class Image:
     nextTextures = None
     def __init__(self, f, filenamehint = None):
         self._texture = None
-        if filenamehint is not None:
-            surf = pygame.image.load(f, filenamehint)
+        if type(f) is StringType:
+            if filenamehint is not None:
+                surf = pygame.image.load(f, filenamehint)
+            else:
+                surf = pygame.image.load(f)
         else:
-            surf = pygame.image.load(f)
+            surf = f
         self.initFromSurface(surf)
 
     def initFromSurface(self, surf):
         self.nativeW = self.w = surf.get_width()
         self.nativeH = self.h = surf.get_height()
-
-        texdata = pygame.image.tostring(surf, "RGBA", 1)
+        self._surf = surf
 
         if Image.nextTextures is None:
             Image.nextTextures = list(glGenTextures(1000))
@@ -36,5 +38,11 @@ class Image:
         if not config.use_anisotropic:
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR)
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR)
-        gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, surf.get_width(), surf.get_height(),
+
+        self.updateFromSurface()
+
+    def updateFromSurface(self):
+        glBindTexture(GL_TEXTURE_2D, self._texture)
+        texdata = pygame.image.tostring(self._surf, "RGBA", 1)
+        gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, self._surf.get_width(), self._surf.get_height(),
             GL_RGBA, GL_UNSIGNED_BYTE, texdata)

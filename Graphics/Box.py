@@ -28,6 +28,11 @@ class Box(Node, Translator):
                 self.h = h
                 self.w = h * ar
 
+        def scaleWH(self, w, h):
+                scale_w = w / float(self.w)
+                scale_h = h / float(self.h)
+                self.scale(min(scale_w, scale_h))
+
         def setCenter(self, center):
                 self.x = center[0] - self.w / 2
                 self.y = center[1] - self.h / 2
