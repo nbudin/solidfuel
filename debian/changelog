@@ -1,6 +1,11 @@
+solidfuel (1.1-2) unstable; urgency=low
+
+  * Remove dynamics modules
+
+ -- Nat Budin <nbudin@nakamura>  Wed, 18 Feb 2009 15:11:28 -0500
+
 solidfuel (1.1-1) unstable; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 
- -- Nat Budin <natbudin@gmail.com>  Tue, 17 Feb 2009 09:28:42 -0500
-
+ -- Nat Budin <nbudin@nakamura>  Wed, 18 Feb 2009 15:11:28 -0500
