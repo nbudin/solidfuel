@@ -1,0 +1,51 @@
+# Automatically added by dh_pycentral
+if which pycentral >/dev/null 2>&1 && pycentral --help 2>/dev/null | grep -q '^ *version'; then
+	pycentral pkgprepare python-solidfuel <<PYEOF
+[python-package]
+format = 1
+python-version = >= 2.5
+[pycentral]
+version = 0.6.7
+[files]
+/usr/share/pyshared/solidfuel-0.0.0.egg-info=f
+/usr/share/pyshared/Graphics=d
+/usr/share/pyshared/Graphics/Visible.py=f
+/usr/share/pyshared/Graphics/RotoZoomer.py=f
+/usr/share/pyshared/Graphics/Display.py=f
+/usr/share/pyshared/Graphics/Rect.py=f
+/usr/share/pyshared/Graphics/ThreeDScene.py=f
+/usr/share/pyshared/Graphics/Point.py=f
+/usr/share/pyshared/Graphics/Line.py=f
+/usr/share/pyshared/Graphics/Node.py=f
+/usr/share/pyshared/Graphics/Model.py=f
+/usr/share/pyshared/Graphics/Sphere.py=f
+/usr/share/pyshared/Graphics/VBox.py=f
+/usr/share/pyshared/Graphics/Box.py=f
+/usr/share/pyshared/Graphics/HBox.py=f
+/usr/share/pyshared/Graphics/VisibleNode.py=f
+/usr/share/pyshared/Graphics/Movie.py=f
+/usr/share/pyshared/Graphics/Sprite.py=f
+/usr/share/pyshared/Graphics/Image.py=f
+/usr/share/pyshared/Graphics/Translator.py=f
+/usr/share/pyshared/Graphics/Billboard.py=f
+/usr/share/pyshared/Graphics/__init__.py=f
+/usr/share/pyshared/Graphics/Text.py=f
+/usr/share/pyshared/Graphics/TextWrapper.py=f
+/usr/share/pyshared/Graphics/Translatable.py=f
+/usr/share/pyshared/Graphics/Particle.py=f
+/usr/share/pyshared/Logic=d
+/usr/share/pyshared/Logic/Condition.py=f
+/usr/share/pyshared/Logic/EventGroup.py=f
+/usr/share/pyshared/Logic/NumberField.py=f
+/usr/share/pyshared/Logic/List.py=f
+/usr/share/pyshared/Logic/DataField.py=f
+/usr/share/pyshared/Logic/ConditionalEvent.py=f
+/usr/share/pyshared/Logic/EnumField.py=f
+/usr/share/pyshared/Logic/__init__.py=f
+/usr/share/pyshared/Logic/Event.py=f
+PYEOF
+else
+	mkdir -p /var/lib/pycentral
+	echo python-solidfuel >> /var/lib/pycentral/delayed-pkgs
+fi
+# End automatically added section
