@@ -6,19 +6,19 @@ import pygame
 from pygame.locals import *
 from solidfuel import config
 from OpenGL.GL.EXT.texture_filter_anisotropic import *
-from types import StringType
+from types import StringType, FileType
 
 class Image:
     nextTextures = None
     def __init__(self, f, filenamehint = None):
         self._texture = None
-        if type(f) is StringType:
+        if issubclass(f.__class__, pygame.Surface):
+            surf = f
+        else:
             if filenamehint is not None:
                 surf = pygame.image.load(f, filenamehint)
             else:
                 surf = pygame.image.load(f)
-        else:
-            surf = f
         self.initFromSurface(surf)
 
     def initFromSurface(self, surf):

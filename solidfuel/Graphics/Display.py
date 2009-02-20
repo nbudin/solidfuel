@@ -16,13 +16,19 @@ def getDisplay():
 
 class Display(Node):
 	obj = None
-	def __init__(self, width, height, flags=0):
+	def __init__(self, width=None, height=None, flags=0):
+		self._displayInfo = pygame.display.Info()
 		Display.obj = self
-		self.w = width
-		self.h = height
+		if width is None or height is None:
+			flags |= FULLSCREEN
+			width = self._displayInfo.current_w
+			height = self._displayInfo.current_h
+		self._nativeW = self.w = width
+		self._nativeH = self.h = height
 
 		pygame.display.init()
-		self._surf = pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL|flags)
+		self._flags = flags
+		self.setDisplayMode()
 		
 		glShadeModel(GL_SMOOTH)
 		glClearColor(0.0, 0.0, 0.0, 0.0)
@@ -49,6 +55,13 @@ class Display(Node):
 				config.use_anisotropic = 0
 		
 		Node.__init__(self)
+
+	def setDisplayMode(self):
+		self._surf = pygame.display.set_mode((self.w, self.h), DOUBLEBUF|OPENGL|self._flags)
+
+	def toggleFullscreen(self):
+		self._flags ^= FULLSCREEN
+		self.setDisplayMode()
 	
 	def setCaption(self, caption):
 		pygame.display.set_caption(caption)
