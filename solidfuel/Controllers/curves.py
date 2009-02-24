@@ -115,7 +115,7 @@ class CatmullRomSpline(Curve):
         startpoint = self._points[timeIndex - 1]
         endpoint = self._points[timeIndex]
         tdelta = endpoint[0] - startpoint[0]
-        
+                    
         # "smooth" start and endpoints for tangents
         if timeIndex > 1:
             prevpoint = self._points[timeIndex - 2]
@@ -134,10 +134,23 @@ class CatmullRomSpline(Curve):
         h3 = s**3 - 2*(s**2) + s
         h4 = s**3 - s**2
         
-        t1 = ((0.5 * (startpoint[1] - prevpoint[1]) / (startpoint[0] - prevpoint[0])) +
-              (0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])))
-        t2 = ((0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])) +
-              (0.5 * (nextpoint[1] - endpoint[1]) / (nextpoint[0] - endpoint[0])))
+        if startpoint[0] == prevpoint[0]:
+            t1 = 0.5 * (startpoint[1] - prevpoint[1])
+        else:
+            t1 = 0.5 * (startpoint[1] - prevpoint[1]) / (startpoint[0] - prevpoint[0])
+        if endpoint[0] == startpoint[0]:
+            t1 += 0.5 * (endpoint[1] - startpoint[1])
+        else:
+            t1 += 0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])
+        
+        if endpoint[0] == startpoint[0]:
+            t2 = 0.5 * (endpoint[1] - startpoint[1])
+        else:
+            t2 = 0.5 * (endpoint[1] - startpoint[1]) / (endpoint[0] - startpoint[0])
+        if nextpoint[0] == endpoint[0]:
+            t2 += 0.5 * (nextpoint[1] - endpoint[1])
+        else:
+            t2 += 0.5 * (nextpoint[1] - endpoint[1]) / (nextpoint[0] - endpoint[0])
         
         value =  h1*startpoint[1] + h2*endpoint[1] + h3*t1 + h4*h2
         return value

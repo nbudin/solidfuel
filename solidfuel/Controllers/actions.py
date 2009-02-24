@@ -160,6 +160,26 @@ class Move3D(Action):
     def update(self, time):
         (self._obj.x, self._obj.y, self._obj.z) = self._curve.value(time)
         
+class Move3DSeparateAxes(Action):
+    def __init__(self, obj, xCurve=None, yCurve=None, zCurve=None):
+        curves = []
+        if xCurve: curves.append(xCurve)
+        if yCurve: curves.append(yCurve)
+        if zCurve: curves.append(zCurve)
+        Action.__init__(self, curves)
+        self._obj = obj
+        self._xCurve = xCurve
+        self._yCurve = yCurve
+        self._zCurve = zCurve
+    
+    def update(self, time):
+        if self._xCurve:
+            self._obj.x = self._xCurve.value(time)
+        if self._yCurve:
+            self._obj.y = self._yCurve.value(time)
+        if self._zCurve:
+            self._obj.z = self._zCurve.value(time)
+        
 class Track3D(Action):
     def __init__(self, scene, curve):
         Action.__init__(self, curve)
@@ -170,6 +190,7 @@ class Track3D(Action):
 
 class PlayMedia(Action):
     def __init__(self, start, times=1, delay=0.0):
+        Action.__init__(self)
         self._times = times
         self._delay = delay
         self._start = start
@@ -218,7 +239,7 @@ class PlaySound(PlayMedia):
             
 class PlayMovie(PlayMedia):
     def __init__(self, movie, start, times=1, delay=0.0):
-        Action.__init__(self)
+        PlayMedia.__init__(self)
         self._movie = movie
         
     def _playMedia(self):

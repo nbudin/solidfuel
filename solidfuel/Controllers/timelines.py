@@ -38,11 +38,11 @@ class Timeline:
             if action.end() and action.end() <= time:
                 self._currentActions.remove(action)
                 self._pastActions.append(action)
+                if action.end():
+                    action.update(action.end())
                 action.finished.trigger()
                 if len(self._currentActions) == len(self._upcomingActions) == 0:
                     self.finished.trigger()
-                if action.end():
-                    action.update(action.end())
             else:
                 action.update(time)
         if time == self._lastUpdate and not force:
