@@ -2,6 +2,7 @@
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from OpenGL.raw import GL as simple
 import pygame
 from pygame.locals import *
 from solidfuel import config
@@ -28,7 +29,7 @@ class Image:
 
         if Image.nextTextures is None:
             Image.nextTextures = list(glGenTextures(1000))
-        self._texture = Image.nextTextures.pop()
+        self._texture = simple.GLuint(int(Image.nextTextures.pop()))
         glBindTexture(GL_TEXTURE_2D, self._texture)
         if config.use_anisotropic:
             try:
