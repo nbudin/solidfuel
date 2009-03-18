@@ -2,6 +2,7 @@
 
 from solidfuel.Logic import Event, Condition
 from solidfuel.Graphics import Sprite, Rectangle
+from curves import InstantCurve
 import math
 import pygame
 
@@ -58,6 +59,17 @@ class Action:
         self._lastUpdate = time
         self.updated.trigger()
 
+class CallFunction(Action):
+    def __init__(self, time, func, *args, **kwargs):
+        Action.__init__(self, InstantCurve(time, 1.0))
+        self._func = func
+        self._args = args
+        self._kwargs = kwargs
+        self.started.addResponder(self._call)
+
+    def _call(self):
+        self._func(*self._args, **self._kwargs)
+        
 class Fade(Action):
     def __init__(self, curve, sprite):
         Action.__init__(self, curve)

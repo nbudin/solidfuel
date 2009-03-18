@@ -22,6 +22,14 @@ class Curve:
         
     def value(self, time):
         raise "This is an abstract class."
+
+class InstantCurve(Curve):
+    def __init__(self, time, value):
+        Curve.__init__(self, time, 0.0)
+        self._value = value
+
+    def value(self, time):
+        return self._value
         
 class ConstantCurve(Curve):
     def __init__(self, start, value, length=None):

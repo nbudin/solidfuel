@@ -13,8 +13,10 @@ class Timeline:
     def addAction(self, action):
         if action.end() and action.end() <= self._lastUpdate:
             self._pastActions.append(action)
+            action.finished.trigger()
         elif action.start() <= self._lastUpdate:
             self._currentActions.append(action)
+            action.started.trigger()
         else:
             self._upcomingActions.append(action)
 
