@@ -129,7 +129,8 @@ class Gui(Box):
         self.pullToTop(self._cursor)
         
     def _widgetRect(self, widget, rect=None):
-        # simplistic.  doesn't account for scaling or translation.
+        # simplistic.  doesn't account for scaling or translation.  If you want those, implement the
+        # _widgetRect(rect) method on your widget class itself.
         if rect is None:
             rect = Rect(0, 0, widget.w, widget.h)
             
@@ -137,6 +138,8 @@ class Gui(Box):
             return rect
         elif widget.parent is None:
             return None
+        elif hasattr(widget, '_widgetRect'):
+            return self._widgetRect(widget.parent, widget._widgetRect(rect))
         elif issubclass(widget.__class__, Translatable):
             return self._widgetRect(widget.parent, rect.move(widget.x, widget.y))
         else:
