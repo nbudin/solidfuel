@@ -29,7 +29,12 @@ class Image:
 
         if Image.nextTextures is None:
             Image.nextTextures = list(glGenTextures(1000))
-        self._texture = simple.GLuint(int(Image.nextTextures.pop()))
+
+        nt = Image.nextTextures.pop()
+        try:
+            self._texture = simple.GLuint(int(nt))
+        except:
+            self._texture = nt
         glBindTexture(GL_TEXTURE_2D, self._texture)
         if config.use_anisotropic:
             try:
@@ -47,3 +52,7 @@ class Image:
         texdata = pygame.image.tostring(self._surf, "RGBA", 1)
         gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, self._surf.get_width(), self._surf.get_height(),
             GL_RGBA, GL_UNSIGNED_BYTE, texdata)
+
+    def __del__(self):
+        # return to texture pool
+        Image.nextTextures.append(self._texture)

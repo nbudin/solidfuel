@@ -21,6 +21,8 @@ class Vector:
         return Vector(*(self._v * other))
     def __div__(self, other):
         return Vector(*(self._v / other))
+    def __abs__(self):
+        return self.norm()
     def norm(self):
         return sqrt(add.reduce(self._v ** 2))
     def normalize(self):

@@ -4,6 +4,7 @@ class SpriteWrapper(Translator, Box):
     def __init__(self):
         Translator.__init__(self)
         Box.__init__(self)
+        self._sprite = None
         self.update()
         self.untranslate()
         
@@ -13,8 +14,11 @@ class SpriteWrapper(Translator, Box):
             self.removeChild(self._sprite)
         else:
             scale = (1.0, 1.0)
-            
+
+        oldSprite = self._sprite
         self._sprite = self._getUpdatedSprite()
+        if oldSprite is not None:
+            del oldSprite
         
         if self._sprite is not None:
             self.addChild(self._sprite)
