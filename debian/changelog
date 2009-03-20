@@ -1,3 +1,9 @@
+solidfuel (1.1.1-1) unstable; urgency=low
+
+  * Many bug fixes.
+
+ -- Nat Budin <nbudin@nakamura>  Thu, 20 Mar 2009 15:11:28 -0500
+
 solidfuel (1.1-2) unstable; urgency=low
 
   * Remove dynamics modules
