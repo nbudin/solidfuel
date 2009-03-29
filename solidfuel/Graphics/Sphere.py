@@ -44,7 +44,7 @@ class Sphere(VisibleNode, Translator):
                 pz = cos(theta2) * sin(theta3)
                 
                 glNormal3f(px, py, pz)
-                glTexCoord2f(i/n, 2*(j+1)/n)
+                glTexCoord2f(float(n-i)/n, 2*(float(j)+1)/n)
                 glVertex3f(px, py, pz)
                 
                 px = cos(theta1) * cos(theta3)
@@ -52,7 +52,7 @@ class Sphere(VisibleNode, Translator):
                 pz = cos(theta1) * sin(theta3)
                 
                 glNormal3f(px, py, pz)
-                glTexCoord2f(i/n, 2*j/n)
+                glTexCoord2f(float(n-i)/n, 2*float(j)/n)
                 glVertex3f(px, py, pz)
             glEnd()
 
