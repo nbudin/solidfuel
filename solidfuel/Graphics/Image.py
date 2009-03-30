@@ -53,6 +53,7 @@ class Image:
         gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, self._surf.get_width(), self._surf.get_height(),
             GL_RGBA, GL_UNSIGNED_BYTE, texdata)
 
-    def __del__(self):
+    def delTexture(self):
         # return to texture pool
         Image.nextTextures.append(self._texture)
+

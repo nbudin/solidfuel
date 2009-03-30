@@ -18,7 +18,7 @@ class SpriteWrapper(Translator, Box):
         oldSprite = self._sprite
         self._sprite = self._getUpdatedSprite()
         if oldSprite is not None:
-            del oldSprite
+            oldSprite.delTexture()
         
         if self._sprite is not None:
             self.addChild(self._sprite)
