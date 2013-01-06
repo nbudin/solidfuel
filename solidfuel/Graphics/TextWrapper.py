@@ -27,7 +27,7 @@ class TextWrapper(VBox):
                 words = requested_line.split(' ')
                 for word in words:
                     if font.size(word)[0] >= width:
-                        raise "The word " + word + " is too long to fit in the rect passed."
+                        raise StandardError("The word " + word + " is too long to fit in the rect passed.")
                 accumulated_line = ""
                 for word in words:
                     test_line = accumulated_line + word + " "
